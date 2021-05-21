@@ -3,6 +3,67 @@ import {StyleSheet} from 'react-native'
 export default StyleSheet.create({
     contain:{
         flex:1,
+        backgroundColor:'#4bcaf9',
+        padding:30
+    },
+    containerCalculadora:{
+        backgroundColor:'#00d564',
+        flex:.82,
+        borderRadius:10,
+        flexWrap:'wrap'
+    },
+    boxPantalla:{
+        flex:.5,
+        backgroundColor:'#00d564',
+        width:'100%',
+        padding:20
+    },
+    pantalla:{
+        flex:1,
+        backgroundColor:'#ffb200',
+        borderRadius:10,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'flex-end',
+        alignItems:'center',
+        paddingRight:20
+    },
+    textResultado:{
+        fontSize:22,
+        fontWeight:'bold'
+    },
+    boxButtons:{
+        flex:4,
+        width:'100%',
+        display:'flex',
+        flexDirection:'row',
+        flexWrap:'wrap',
+        padding:10,
+        backgroundColor:'#ffb200'
+    },
+    boxButton:{
+        width:'25%',
+        height:'20%',
+        padding:5,
         backgroundColor:'#4bcaf9'
+    },
+    button:{
+        width:'100%',
+        height:'100%',
+        backgroundColor:'#00d564',
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:20
+    },
+    textButton:{
+        fontSize:16,
+        fontWeight:'bold'
+    },
+    red:{
+        backgroundColor:'red'
+    },
+    specialButton:{
+        width:'75%'
     }
 })
