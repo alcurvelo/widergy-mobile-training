@@ -16,7 +16,7 @@ export default StyleSheet.create({
         width:'80%',
         minHeight:200,
         borderRadius:10,
-        backgroundColor:'green'
+        backgroundColor:'#00d564'
     },
     viewLogo:{
         width:120,
@@ -27,8 +27,30 @@ export default StyleSheet.create({
     },
     textBienvenida:{
         fontSize:18,
-        color:'white',
+        color:'#f8f8f8',
         fontWeight:'bold',
         textAlign:'center'
+    },
+    buttonsGroup:{
+        marginTop:20,
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'space-evenly',
+        width:'90%',
+        height:100
+    },
+    bCalculadora:{
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
+        width:'60%',
+        height:40,
+        backgroundColor:'#ffb200',
+        borderRadius:10
+    },
+    bCalculadoraText:{
+        fontSize:18,
+        fontWeight:'bold',
+        color:'#f8f8f8'
     }
 })
