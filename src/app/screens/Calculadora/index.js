@@ -4,6 +4,7 @@ import styles from '../Calculadora/styles'
 import {buttonsWithValue} from './constants'
 
 const Calculadora =()=>{
+    const pantalla='0'
     const leerPresionado=(target)=>{
         if(target.match(/[0123456789]/)!=null){
             console.log("número")
