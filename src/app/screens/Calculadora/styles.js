@@ -8,15 +8,16 @@ export default StyleSheet.create({
     },
     containerCalculadora:{
         backgroundColor:'#00d564',
-        flex:.82,
+        height:500,
         borderRadius:10,
         flexWrap:'wrap'
     },
     boxPantalla:{
-        flex:.5,
         backgroundColor:'#00d564',
         width:'100%',
-        padding:20
+        padding:20,
+        borderRadius:10,
+        flex:.5
     },
     pantalla:{
         flex:1,
@@ -25,21 +26,21 @@ export default StyleSheet.create({
         display:'flex',
         flexDirection:'row',
         justifyContent:'flex-end',
-        alignItems:'center',
-        paddingRight:20
+        alignItems:'center'
     },
     textResultado:{
         fontSize:22,
-        fontWeight:'bold'
+        fontWeight:'bold',
+        marginRight:10
     },
     boxButtons:{
         flex:4,
-        width:'100%',
         display:'flex',
         flexDirection:'row',
         flexWrap:'wrap',
         padding:10,
-        backgroundColor:'#ffb200'
+        backgroundColor:'#ffb200',
+        borderRadius:5
     },
     boxButton:{
         width:'25%',
@@ -48,8 +49,7 @@ export default StyleSheet.create({
         backgroundColor:'#4bcaf9'
     },
     button:{
-        width:'100%',
-        height:'100%',
+        flex:1,
         backgroundColor:'#00d564',
         display:'flex',
         alignItems:'center',
@@ -64,6 +64,12 @@ export default StyleSheet.create({
         backgroundColor:'red'
     },
     specialButton:{
-        width:'75%'
+        width:'50%'
+    },
+    specialButtonDel:{
+        backgroundColor:'#8a2a2a',
+    },
+    specialButtonOperations:{
+        backgroundColor:'#00b555'
     }
 })

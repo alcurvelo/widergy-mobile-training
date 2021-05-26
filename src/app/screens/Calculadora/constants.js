@@ -1,6 +1,6 @@
 export const buttonsWithValue=[
-    "AC",
     "C",
+    "<",
     "%",
     "/",
     "7",
@@ -16,5 +16,6 @@ export const buttonsWithValue=[
     "3",
     "+",
     "0",
+    ",",
     "="
 ]
