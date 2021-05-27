@@ -1,56 +1,48 @@
-// In App.js in a new project
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import React from 'react';
+//Importando librerias para la navegacion
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack'
-import  Calculadora from '../screens/Calculadora'
+//Componentes propios
 import Home from '../screens/Home'
-import HeaderNavigation from '../Navigation/HeaderNavigation'
-import {Text} from 'react-native'
+import Calculadora from '../screens/Calculadora'
+import DrawerScreenLayout from './components/DrawerScreenLayout'
+import styles from './styles';
+import {screenOptionsHome,screenOptions} from './navigatorsOptions'
+//Declaracion de los navigator
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
-//Screens
-function HomeScreen() {
-    // screenOptions={{headerShown:false}}
+//Screens with stack navigation
+const HomeScreen=()=>{
   return (
-      <Stack.Navigator screenOptions={{
-          headerStyle:{backgroundColor:'#00d564'},
-          headerTintColor:'white',
-          headerBackTitleVisible:true
-      }}>
+      <Stack.Navigator screenOptions={screenOptionsHome}>
           <Stack.Screen name="Inicio" component={Home}/>
       </Stack.Navigator>
   );
 }
-function CalculadoraScreen() {
+const CalculadoraScreen=()=>{
     return (
-      <Stack.Navigator screenOptions={{
-        headerStyle:{backgroundColor:'#00d564'},
-        header:({scene, previous, navigation})=>HeaderNavigation(scene, previous, navigation,"Calculadora")
-    }}>
-        <Stack.Screen name="Calculadora" component={Calculadora}/>
-    </Stack.Navigator>
+        <Stack.Navigator screenOptions={screenOptions("Calculadora")}>
+            <Stack.Screen name="Calculadora" component={Calculadora}/>
+        </Stack.Navigator>
     );
 }
-
-function NavigationDrawer() {
+//Fin de screens
+//Drawer Navigation
+const NavigationDrawer=()=>{
   return (
     <NavigationContainer>
-        <Drawer.Navigator 
-        drawerContentOptions={{labelStyle:{
-                                color:'white',
-                                fontSize:20,
-                                fontWeight:'bold'
-                            }}} 
-        drawerStyle={{backgroundColor:'#00d564'}}>
+        <Drawer.Navigator drawerStyle={styles.backgroundDrawerNavigator}>
             <Drawer.Screen name="Inicio" component={HomeScreen} 
             options={{
-                drawerIcon: ({ color }) => <Text>Icono</Text>
+                drawerIcon:()=><DrawerScreenLayout nombre='Inicio' urlIcon='https://avatars.githubusercontent.com/u/23506803?v=4'/>
             }}/>
-            <Drawer.Screen name="Calculadora" children={CalculadoraScreen}/>
+            <Drawer.Screen name="Calculadora" children={CalculadoraScreen}
+            options={{
+                drawerIcon:()=><DrawerScreenLayout nombre='Calculadora' urlIcon='https://images.vexels.com/media/users/3/127358/isolated/preview/736663fe6f9e03fcb39ace9020c42b4c-icono-de-calculadora-estacionaria-by-vexels.png'/>
+            }}/>
         </Drawer.Navigator>
     </NavigationContainer>
   );
 }
-
 export default NavigationDrawer;

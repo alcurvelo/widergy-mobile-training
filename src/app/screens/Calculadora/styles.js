@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native'
 export default StyleSheet.create({
     contain:{
         flex:1,
-        backgroundColor:'#4bcaf9',
+        backgroundColor:'white',
         padding:30
     },
     containerCalculadora:{
@@ -23,15 +23,13 @@ export default StyleSheet.create({
         flex:1,
         backgroundColor:'#ffb200',
         borderRadius:10,
-        display:'flex',
-        flexDirection:'row',
-        justifyContent:'flex-end',
-        alignItems:'center'
     },
     textResultado:{
         fontSize:22,
         fontWeight:'bold',
-        marginRight:10
+        width:'100%',
+        padding:10,
+        textAlign:'right'
     },
     boxButtons:{
         flex:4,
