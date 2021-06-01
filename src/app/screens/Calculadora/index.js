@@ -1,86 +1,68 @@
 import React,{useState} from 'react'
-import {View,Text,TouchableHighlight,TextInput} from 'react-native'
+import {View, TextInput} from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import styles from '../Calculadora/styles'
-import {buttonsWithValue} from './constants'
+import styles from './styles'
+import Button from './components/Button'
+import {BUTTONS} from './constants'
 
 const Calculadora =()=>{
     //Variables y funciones
-    let [pantalla,setPantalla]=useState('')
-    let [operation,setOperation]=useState('')
-    let [numberOne,setNumberOne]=useState(0)
-    const resetCalculator=()=>{
-        setPantalla('')
-        setOperation('')
-        setNumberOne(0)
-    }
+    let [display,setDisplay]=useState('')
     const leerPresionado=(target)=>{
-        //Si es un número lo concatena
-        if(target.match(/[0123456789]/)!=null) {
-            setPantalla(pantalla.concat(target))
-        }else{
-            caracterPresionado(target)
-        }
+        GET_BUTTONS.find(button=>button.label===target).action()
     }
-    const caracterPresionado=(target)=>{
-        //Operaciones de la calculadora
-        const realizarOperation=(numberOne,operation,pantalla)=>{
-            let numberTwo=parseFloat(pantalla.split(operation).pop().replace(',','.'))
-            let result=0
-            switch (operation) {
-                case '+':
-                    result=numberOne+numberTwo
-                    break;
-                case '-':
-                    result=numberOne-numberTwo
-                    break;
-                case '*':
-                    result=numberOne*numberTwo
-                    break;
-                case '/':
-                    if(numberTwo!=0){
-                        result=numberOne/numberTwo
-                    }else{
-                        console.warn("Indeterminado")
-                        setPantalla('')
-                        return false
-                    }
-                    break;
-                case '%':
-                    result=numberOne%numberTwo
-                    break;
-            }
-            numberTwo=0
-            setPantalla(result.toLocaleString("es-ES").replace('.',','))
-            setNumberOne(result)
-        }
-        switch (target) {
-            case "C":
-                resetCalculator()
+    const setExpression=(expression)=>{
+        console.log(display)
+        expression!=null
+            ?   setDisplay(display.concat(expression))
+            :   setDisplay('')
+    }
+    const deleteLastValue=()=>{
+        setDisplay(display.slice(0,-1))
+    }
+    const operation=(op,numberOne,numberTwo)=>{
+        let result
+        switch (op) {
+            case '+':
+                result=numberOne+numberTwo
                 break;
-            case "<":
-                setPantalla(pantalla.slice(0,pantalla.length-1))
+            case '-':
+                result=numberOne-numberTwo
                 break;
-            case '=':
-                if(operation.length>0){
-                    realizarOperation(numberOne,operation,pantalla)
-                    setOperation('')
+            case '*':
+                result=numberOne*numberTwo
+                break;
+            case '/':
+                if(numberTwo!=0){
+                    result=numberOne/numberTwo
                 }else{
-                    setPantalla(numberOne.toLocaleString("es-ES").replace('.',','))
+                    console.warn("Indeterminado")
+                    setDisplay('')
+                    return ''
                 }
                 break;
-            default:
-                if(target.match(/[+-/=%*,]/)!=null){
-                    //Si es una , solo la concatena, no realiza ninguna operacion
-                    if(target!=','){
-                        setOperation(target)
-                        setNumberOne(parseFloat(pantalla.replace(',','.')))
-                    }
-                    setPantalla(pantalla+target)
-                }
+            case '%':
+                result=numberOne%numberTwo
                 break;
         }
+        return result
     }
+    const solve=()=>{
+        let result=''
+        let exp=RegExp(/^(-?(\d*\,)?\d*)([\+|\-|\*|\/|\%]{1})(-?(\d*\,)?\d*)$/)
+        if(display.match(exp) != null){
+            result=display.replace(/\,/g,'.')
+            let consultExpression=result.split(/([\+|\-|\*|\/|\%]{1})/)
+            console.log(consultExpression)
+            consultExpression.length==3
+                ?   setDisplay(operation(consultExpression[1],parseFloat(consultExpression[0]),parseFloat(consultExpression[2])).toLocaleString("es-ES").replace('.',','))
+                :   "Faltan los casos de operaciones con números negativos"
+        }else {
+            console.warn("Error:No es una operación valida.")
+            setDisplay('')
+        }
+    }
+    let GET_BUTTONS=BUTTONS(setExpression,deleteLastValue,solve)
     //Fin de variables y funciones
     return (
         <KeyboardAwareScrollView style={styles.contain}>
@@ -92,30 +74,17 @@ const Calculadora =()=>{
                             (nativeEvent.key.match(/[0123456789]/)||nativeEvent.key.match(/[+-/=%*,]/))!=null
                             ?   leerPresionado(nativeEvent.key)
                             :   nativeEvent.key=='Backspace' 
-                                ?   caracterPresionado("<")
+                                ?   GET_BUTTONS.find(button=>button.label=="<").action()
                                 :   console.warn("Introduzca números o caracteres de una calculadora.")
                         }}
-                        style={styles.textResultado}>{pantalla}</TextInput>
+                        style={styles.textResultado}>{display}</TextInput>
                     </View>
                 </View>
                 <View style={styles.boxButtons}>
                 {
-                    buttonsWithValue.map((element,key)=>{
+                    GET_BUTTONS.map((button,key)=>{
                         return (
-                            <TouchableHighlight 
-                                activeOpacity={0.45}
-                                underlayColor="#4bcaf9"
-                                onPress={()=>leerPresionado(element)} 
-                                key={key} 
-                                style={[styles.boxButton,element==='0' && styles.specialButton]}>
-                                <View style={[
-                                    styles.button,
-                                    element.match(/[C<]/)!=null && styles.specialButtonDel,
-                                    element.match(/[+-/=%*,]/)!=null && styles.specialButtonOperations
-                                    ]}>
-                                    <Text style={styles.textButton}>{element}</Text>
-                                </View>
-                            </TouchableHighlight>
+                            <Button key={key} button={button}/>
                         )
                     })
                 }
