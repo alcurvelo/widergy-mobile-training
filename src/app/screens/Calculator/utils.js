@@ -32,20 +32,20 @@ const operation = (op, numberOne, numberTwo) => {
 export const getSolveOperation = (display, setDisplay) => () => {
   let result = '';
   let exp = RegExp(/^(-?\d*(,\d*)?)([+|\-|*|/|%]{1})(-?\d*(,\d*)?)$/);
-  if (display.match(exp) != null) {
+  if (display.replace(/ /g, '').match(exp) != null) {
     result = display.replace(/,/g, '.');
-    let consultExpression = result.split(/([+|*|/|%]{1})/);
-    consultExpression.length === 3
-      ? setDisplay(
-          operation(
-            consultExpression[1],
-            parseFloat(consultExpression[0]),
-            parseFloat(consultExpression[2]),
-          )
-            .toLocaleString('es-ES')
-            .replace('.', ','),
+    let consultExpression = result.split(/ /);
+    console.log(display, consultExpression);
+    consultExpression.length === 3 &&
+      setDisplay(
+        operation(
+          consultExpression[1],
+          parseFloat(consultExpression[0]),
+          parseFloat(consultExpression[2]),
         )
-      : 'Hace todas las operaciones menos la resta';
+          .toLocaleString('es-ES')
+          .replace('.', ','),
+      );
   } else {
     console.warn('Error:No es una operación valida.');
     setDisplay('');
@@ -74,12 +74,12 @@ export const retrieveButtons = (display, setDisplay) => {
     },
     {
       label: '%',
-      action: () => setExpression('%'),
+      action: () => setExpression(' % '),
       style: 'operation',
     },
     {
       label: '/',
-      action: () => setExpression('/'),
+      action: () => setExpression(' / '),
       style: 'operation',
     },
     {
@@ -96,7 +96,7 @@ export const retrieveButtons = (display, setDisplay) => {
     },
     {
       label: '*',
-      action: () => setExpression('*'),
+      action: () => setExpression(' * '),
       style: 'operation',
     },
     {
@@ -113,7 +113,15 @@ export const retrieveButtons = (display, setDisplay) => {
     },
     {
       label: '-',
-      action: () => setExpression('-'),
+      action: () => {
+        let buscaOperador = display.split(/[\+\*\/\%]{1}/);
+        (display.split(/-/).length === 2 && buscaOperador.length < 2) ||
+        (display.length > 0 &&
+          display.indexOf('-') === -1 &&
+          buscaOperador.length < 2)
+          ? setExpression(' - ')
+          : setExpression('-');
+      },
       style: 'operation',
     },
     {
@@ -130,7 +138,7 @@ export const retrieveButtons = (display, setDisplay) => {
     },
     {
       label: '+',
-      action: () => setExpression('+'),
+      action: () => setExpression(' + '),
       style: 'operation',
     },
     {
