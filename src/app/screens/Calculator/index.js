@@ -5,7 +5,7 @@ import styles from './styles';
 import Button from './components/Button';
 import {retrieveButtons} from './utils';
 
-const Calculadora = () => {
+const Calculator = () => {
   //Variables y funcionesa
   const [display, setDisplay] = useState('');
 
@@ -46,4 +46,4 @@ const Calculadora = () => {
     </KeyboardAwareScrollView>
   );
 };
-export default Calculadora;
+export default Calculator;
