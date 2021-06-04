@@ -1,7 +1,6 @@
 import React from 'react';
-import 'react-native-gesture-handler';
-import Calculator from './src/app/screens/Calculator';
+import AppNavigator from './src/app/navigation/AppNavigator';
 const App = () => {
-  return <Calculator />;
+  return <AppNavigator />;
 };
 export default App;

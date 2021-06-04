@@ -3,57 +3,94 @@ import {StyleSheet} from 'react-native';
 export default StyleSheet.create({
   contain: {
     flex: 1,
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#4bcaf9',
+    backgroundColor: 'white',
+    padding: 30,
   },
-  bienvenidaContent: {
+  containerCalculator: {
+    backgroundColor: '#00d564',
+    height: 500,
+    borderRadius: 10,
+    flexWrap: 'wrap',
+  },
+  boxHistory: {
+    marginBottom: 5,
+    width: '100%',
+    height: 45,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    width: '80%',
-    minHeight: 200,
-    borderRadius: 10,
-    backgroundColor: '#00d564',
+    padding: 10,
   },
-  viewLogo: {
-    width: 120,
-    height: 120,
-  },
-  nombreEmpresa: {
-    color: '#ffb200',
-  },
-  textBienvenida: {
+  textIqual: {
     fontSize: 18,
-    color: '#f8f8f8',
     fontWeight: 'bold',
+    color: 'white',
+  },
+  textValues: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    width: '40%',
     textAlign: 'center',
+    color: 'white',
   },
-  buttonsGroup: {
-    marginTop: 20,
+  boxButtonHistory: {
+    width: '10%',
+  },
+  buttonOption: {
+    margin: 1.5,
+    width: 20,
+    height: 20,
+    borderRadius: 2,
+  },
+  boxPantalla: {
+    backgroundColor: '#00d564',
+    width: '100%',
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+    borderRadius: 10,
+    flex: 0.5,
+  },
+  pantalla: {
+    flex: 1,
+    backgroundColor: '#ffb200',
+    borderRadius: 10,
+  },
+  textResultado: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    width: '100%',
+    padding: 10,
+    textAlign: 'right',
+  },
+  boxButtons: {
+    flex: 4,
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    width: '90%',
-    height: 100,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 10,
+    backgroundColor: '#ffb200',
+    borderRadius: 5,
   },
-  bCalculadora: {
+  boxNavButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 2,
+  },
+  buttonNav: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '60%',
+    width: '45%',
     height: 40,
     backgroundColor: '#ffb200',
     borderRadius: 10,
   },
-  bCalculadoraText: {
+  buttonNavText: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#f8f8f8',
-  },
-  green: {
-    color: 'green',
   },
 });
