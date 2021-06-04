@@ -1,33 +1,17 @@
+import styles from './components//Button/styles';
+
 export const getSetExpression = (display, setDisplay) => expression => {
   expression != null ? setDisplay(display.concat(expression)) : setDisplay('');
 };
 
-const operation = (op, numberOne, numberTwo) => {
-  console.log(op, numberOne, numberTwo);
-  let result;
-  switch (op) {
-    case '+':
-      result = numberOne + numberTwo;
-      break;
-    case '-':
-      result = numberOne - numberTwo;
-      break;
-    case '*':
-      result = numberOne * numberTwo;
-      break;
-    case '/':
-      if (numberTwo !== 0) {
-        result = numberOne / numberTwo;
-      } else {
-        console.warn('Indeterminado');
-        return '';
-      }
-      break;
-    case '%':
-      result = numberOne % numberTwo;
-      break;
-  }
-  return result;
+const operation = (numberOne, numberTwo) => {
+  return {
+    '+': numberOne + numberTwo,
+    '-': numberOne - numberTwo,
+    '*': numberOne * numberTwo,
+    '/': numberOne / numberTwo,
+    '%': numberOne % numberTwo,
+  };
 };
 
 export const getSolveOperation = (display, setDisplay) => () => {
@@ -36,20 +20,29 @@ export const getSolveOperation = (display, setDisplay) => () => {
   if (display.replace(/ /g, '').match(exp) != null) {
     result = display.replace(/,/g, '.');
     let consultExpression = result.split(/ /);
-    console.log(display, consultExpression);
-    consultExpression.length === 3 &&
-      setDisplay(
-        operation(
-          consultExpression[1],
-          parseFloat(consultExpression[0]),
-          parseFloat(consultExpression[2]),
-        )
-          .toLocaleString('es-ES')
-          .replace('.', ','),
-      );
+    if (consultExpression.length === 3) {
+      if (consultExpression[2] === '0' && consultExpression[1] === '/') {
+        console.warn('Indeterminado');
+        setDisplay('');
+      } else {
+        setDisplay(
+          operation(
+            parseFloat(consultExpression[0]),
+            parseFloat(consultExpression[2]),
+          )
+            [consultExpression[1]].toLocaleString('es-ES')
+            .replace('.', ','),
+        );
+      }
+    }
   } else {
-    console.warn('Error:No es una operación valida.');
-    setDisplay('');
+    let buscaOperador = display.split(/[\+\*\/\%]{1}/);
+    if (buscaOperador.length < 2 && display.length !== 0) {
+      setDisplay(display);
+    } else {
+      console.warn('Error:No es una operación valida.');
+      setDisplay('');
+    }
   }
 };
 
@@ -66,22 +59,22 @@ export const retrieveButtons = (display, setDisplay) => {
     {
       label: 'C',
       action: () => setExpression(null),
-      style: 'del',
+      style: styles.del,
     },
     {
       label: '<',
       action: () => deleteLastValue(),
-      style: 'del',
+      style: styles.del,
     },
     {
       label: '%',
       action: () => setExpression(' % '),
-      style: 'operation',
+      style: styles.operation,
     },
     {
       label: '/',
       action: () => setExpression(' / '),
-      style: 'operation',
+      style: styles.operation,
     },
     {
       label: '7',
@@ -98,7 +91,7 @@ export const retrieveButtons = (display, setDisplay) => {
     {
       label: '*',
       action: () => setExpression(' * '),
-      style: 'operation',
+      style: styles.operation,
     },
     {
       label: '4',
@@ -123,7 +116,7 @@ export const retrieveButtons = (display, setDisplay) => {
           ? setExpression(' - ')
           : setExpression('-');
       },
-      style: 'operation',
+      style: styles.operation,
     },
     {
       label: '1',
@@ -140,7 +133,7 @@ export const retrieveButtons = (display, setDisplay) => {
     {
       label: '+',
       action: () => setExpression(' + '),
-      style: 'operation',
+      style: styles.operation,
     },
     {
       label: '0',
@@ -153,7 +146,7 @@ export const retrieveButtons = (display, setDisplay) => {
     {
       label: '=',
       action: () => solveOperation(),
-      style: 'operation',
+      style: styles.operation,
     },
   ];
 };
