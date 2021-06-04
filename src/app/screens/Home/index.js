@@ -35,7 +35,7 @@ const Home = ({navigation}) => {
               <ImageBackground
                 style={[styles.buttonOption, styles.red]}
                 source={{
-                  uri: 'https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/trash-512.png',
+                  uri: 'https://lh3.googleusercontent.com/proxy/tOhIwSCvnEObBTg4L5X6y7mynDzJLwfa7rwe4Q9bL2wwieWefSNd8GL8ThtbTRDWQljxmx60f1bpQx3EdezRI-8BWoBOEayvPQ',
                 }}
               />
             </TouchableOpacity>

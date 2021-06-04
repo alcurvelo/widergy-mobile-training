@@ -9,7 +9,7 @@ const Button = ({button}) => {
       underlayColor="#4bcaf9"
       onPress={button.action}
       style={[styles.boxButton, button.label === '0' && styles.specialButton]}>
-      <View style={[styles.button, styles[button.style && button.style]]}>
+      <View style={[styles.button, button.style]}>
         <Text style={styles.textButton}>{button.label}</Text>
       </View>
     </TouchableHighlight>
