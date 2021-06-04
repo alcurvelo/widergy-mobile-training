@@ -7,20 +7,21 @@ import {
   Text,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {connect} from 'react-redux';
 
 import styles from './styles';
 import Button from './components/Button';
 import {retrieveButtons} from './utils';
+import actionHistory from '../../redux/history/actions';
 
 const Home = ({navigation}) => {
   //Variables y funcionesa
   const [display, setDisplay] = useState('');
+  let GET_BUTTONS = retrieveButtons(display, setDisplay);
 
   const leerPresionado = target => {
     GET_BUTTONS.find(button => button.label === target).action();
   };
-
-  let GET_BUTTONS = retrieveButtons(display, setDisplay);
 
   //Fin de variables y funciones
   return (
@@ -80,4 +81,7 @@ const Home = ({navigation}) => {
     </KeyboardAwareScrollView>
   );
 };
-export default Home;
+const mapDispatchToprops = {
+  setHistory: actionHistory.setHistory(),
+};
+export default connect(null, mapDispatchToprops)(Home);
