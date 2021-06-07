@@ -1,4 +1,5 @@
 import styles from './components//Button/styles';
+import Toast from './components/Toast';
 
 export const getSetExpression = (display, setDisplay) => expression => {
   expression != null ? setDisplay(display.concat(expression)) : setDisplay('');
@@ -23,7 +24,7 @@ export const getSolveOperation =
       let consultExpression = result.split(/ /);
       if (consultExpression.length === 3) {
         if (consultExpression[2] === '0' && consultExpression[1] === '/') {
-          console.warn('Indeterminado');
+          Toast('Indeterminado', 'LONG', 'CENTER');
           setDisplay('');
         } else {
           let solverOp = operation(
@@ -41,7 +42,7 @@ export const getSolveOperation =
       if (buscaOperador.length < 2 && display.length !== 0) {
         setDisplay(display);
       } else {
-        console.warn('Error:No es una operación valida.');
+        Toast('Error: no es una operación valida.', 'LONG', 'CENTER');
         setDisplay('');
       }
     }

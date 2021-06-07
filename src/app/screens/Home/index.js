@@ -14,7 +14,7 @@ import Button from './components/Button';
 import {retrieveButtons} from './utils';
 import actionHistory from '../../redux/history/actions';
 
-const Home = ({navigation, setHistory, history}) => {
+const Home = ({navigation, setHistory}) => {
   //Variables y funcionesa
   const [display, setDisplay] = useState('');
   const [saveExpression, setSaveExpression] = useState('');
@@ -23,7 +23,6 @@ const Home = ({navigation, setHistory, history}) => {
   const leerPresionado = target => {
     GET_BUTTONS.find(button => button.label === target).action();
   };
-  console.log(history);
   //Fin de variables y funciones
   return (
     <KeyboardAwareScrollView style={styles.contain}>
@@ -93,12 +92,7 @@ const Home = ({navigation, setHistory, history}) => {
     </KeyboardAwareScrollView>
   );
 };
-const mapStateToProps = state => {
-  return {
-    history: state.historyReducer.history,
-  };
-};
 const mapDispatchToprops = {
   setHistory: actionHistory.setHistory,
 };
-export default connect(mapStateToProps, mapDispatchToprops)(Home);
+export default connect(null, mapDispatchToprops)(Home);

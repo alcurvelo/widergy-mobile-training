@@ -1,8 +1,11 @@
+import Toast from '../components/Toast';
+
 export const actionHistory = {
   getHistories: () => dispatch => {
     dispatch({type: 'GET_HISTORIES'});
   },
   setHistory: expression => dispatch => {
+    Toast('Expresión salvada.', 'LONG', 'TOP', 25, 190);
     dispatch({type: 'SET_HISTORY', payload: expression});
   },
   editExpressionHistory: newExpression => dispatch => {
