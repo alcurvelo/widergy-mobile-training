@@ -14,33 +14,45 @@ import Button from './components/Button';
 import {retrieveButtons} from './utils';
 import actionHistory from '../../redux/history/actions';
 
-const Home = ({navigation}) => {
+const Home = ({navigation, setHistory, history}) => {
   //Variables y funcionesa
   const [display, setDisplay] = useState('');
-  let GET_BUTTONS = retrieveButtons(display, setDisplay);
+  const [saveExpression, setSaveExpression] = useState('');
+  let GET_BUTTONS = retrieveButtons(display, setDisplay, setSaveExpression);
 
   const leerPresionado = target => {
     GET_BUTTONS.find(button => button.label === target).action();
   };
-
+  console.log(history);
   //Fin de variables y funciones
   return (
     <KeyboardAwareScrollView style={styles.contain}>
       <View style={styles.containerCalculator}>
         <View style={styles.boxHistory}>
-          <Text style={styles.textValues}>expression</Text>
-          <Text style={styles.textIqual}>=</Text>
-          <Text style={styles.textValues}>resultado</Text>
-          <View style={styles.boxButtonHistory}>
-            <TouchableOpacity>
-              <ImageBackground
-                style={[styles.buttonOption, styles.red]}
-                source={{
-                  uri: 'https://lh3.googleusercontent.com/proxy/tOhIwSCvnEObBTg4L5X6y7mynDzJLwfa7rwe4Q9bL2wwieWefSNd8GL8ThtbTRDWQljxmx60f1bpQx3EdezRI-8BWoBOEayvPQ',
-                }}
-              />
-            </TouchableOpacity>
-          </View>
+          {saveExpression.length > 0 && (
+            <>
+              <Text style={styles.textValues}>
+                {saveExpression.split(/[=]/)[0]}
+              </Text>
+              <Text style={styles.textIqual}>=</Text>
+              <Text style={styles.textValues}>
+                {saveExpression.split(/[=]/)[1]}
+              </Text>
+              <View style={styles.boxButtonHistory}>
+                <TouchableOpacity
+                  onPress={() =>
+                    saveExpression.length > 0 && setHistory(saveExpression)
+                  }>
+                  <ImageBackground
+                    style={[styles.buttonOption, styles.red]}
+                    source={{
+                      uri: 'https://www.freeiconspng.com/uploads/save-icon-20.png',
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
         </View>
         <View style={styles.boxPantalla}>
           <View style={styles.pantalla}>
@@ -81,7 +93,12 @@ const Home = ({navigation}) => {
     </KeyboardAwareScrollView>
   );
 };
-const mapDispatchToprops = {
-  setHistory: actionHistory.setHistory(),
+const mapStateToProps = state => {
+  return {
+    history: state.historyReducer.history,
+  };
 };
-export default connect(null, mapDispatchToprops)(Home);
+const mapDispatchToprops = {
+  setHistory: actionHistory.setHistory,
+};
+export default connect(mapStateToProps, mapDispatchToprops)(Home);

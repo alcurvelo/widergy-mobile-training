@@ -1,4 +1,4 @@
-export const actionCreators = {
+export const actionHistory = {
   getHistories: () => dispatch => {
     dispatch({type: 'GET_HISTORIES'});
   },
@@ -16,4 +16,4 @@ export const actionCreators = {
   },
 };
 
-export default actionCreators;
+export default actionHistory;

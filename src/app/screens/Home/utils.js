@@ -14,46 +14,51 @@ const operation = (numberOne, numberTwo) => {
   };
 };
 
-export const getSolveOperation = (display, setDisplay) => () => {
-  let result = '';
-  let exp = RegExp(/^(-?\d*(,\d*)?)([+|\-|*|/|%]{1})(-?\d*(,\d*)?)$/);
-  if (display.replace(/ /g, '').match(exp) != null) {
-    result = display.replace(/,/g, '.');
-    let consultExpression = result.split(/ /);
-    if (consultExpression.length === 3) {
-      if (consultExpression[2] === '0' && consultExpression[1] === '/') {
-        console.warn('Indeterminado');
-        setDisplay('');
-      } else {
-        setDisplay(
-          operation(
+export const getSolveOperation =
+  (display, setDisplay, setSaveExpression) => () => {
+    let result = '';
+    let exp = RegExp(/^(-?\d*(,\d*)?)([+|\-|*|/|%]{1})(-?\d*(,\d*)?)$/);
+    if (display.replace(/ /g, '').match(exp) != null) {
+      result = display.replace(/,/g, '.');
+      let consultExpression = result.split(/ /);
+      if (consultExpression.length === 3) {
+        if (consultExpression[2] === '0' && consultExpression[1] === '/') {
+          console.warn('Indeterminado');
+          setDisplay('');
+        } else {
+          let solverOp = operation(
             parseFloat(consultExpression[0]),
             parseFloat(consultExpression[2]),
           )
             [consultExpression[1]].toLocaleString('es-ES')
-            .replace('.', ','),
-        );
+            .replace('.', ',');
+          setSaveExpression(display.concat('=').concat(solverOp));
+          setDisplay(solverOp);
+        }
+      }
+    } else {
+      let buscaOperador = display.split(/[\+\*\/\%]{1}/);
+      if (buscaOperador.length < 2 && display.length !== 0) {
+        setDisplay(display);
+      } else {
+        console.warn('Error:No es una operación valida.');
+        setDisplay('');
       }
     }
-  } else {
-    let buscaOperador = display.split(/[\+\*\/\%]{1}/);
-    if (buscaOperador.length < 2 && display.length !== 0) {
-      setDisplay(display);
-    } else {
-      console.warn('Error:No es una operación valida.');
-      setDisplay('');
-    }
-  }
-};
+  };
 
 export const getDeleteLastValue = (display, setDisplay) => () => {
   setDisplay(display.slice(0, -1));
 };
 
-export const retrieveButtons = (display, setDisplay) => {
+export const retrieveButtons = (display, setDisplay, setSaveExpression) => {
   const setExpression = getSetExpression(display, setDisplay);
   const deleteLastValue = getDeleteLastValue(display, setDisplay);
-  const solveOperation = getSolveOperation(display, setDisplay);
+  const solveOperation = getSolveOperation(
+    display,
+    setDisplay,
+    setSaveExpression,
+  );
 
   return [
     {

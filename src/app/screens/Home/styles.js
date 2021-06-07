@@ -15,7 +15,6 @@ export default StyleSheet.create({
   boxHistory: {
     marginBottom: 5,
     width: '100%',
-    height: 45,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -33,6 +32,10 @@ export default StyleSheet.create({
     width: '40%',
     textAlign: 'center',
     color: 'white',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
   },
   boxButtonHistory: {
     width: '10%',
@@ -46,6 +49,7 @@ export default StyleSheet.create({
   boxPantalla: {
     backgroundColor: '#00d564',
     width: '100%',
+    minHeight: '5%',
     paddingHorizontal: 20,
     paddingBottom: 10,
     borderRadius: 10,
@@ -55,6 +59,8 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffb200',
     borderRadius: 10,
+    display: 'flex',
+    justifyContent: 'center',
   },
   textResultado: {
     fontSize: 22,
