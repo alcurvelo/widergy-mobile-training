@@ -12,13 +12,15 @@ export function historyReducer(state = initialState, action) {
         history: [...state.history, action.payload],
       };
     case 'EDIT_EXPRESSION_HISTORY': {
+      let {newExpression, id} = action.payload;
       let historyCopy = [];
       historyCopy = [...state.history];
-      const historyFiltered = historyCopy.filter(expression => {
-        if (expression.id !== action.payload) {
-          return expression;
+      let historyFiltered = [];
+      historyCopy.map((expression, key) => {
+        if (key !== id) {
+          historyFiltered.push(expression);
         } else {
-          return action.payload;
+          historyFiltered.push(newExpression);
         }
       });
       return {
@@ -30,14 +32,14 @@ export function historyReducer(state = initialState, action) {
       let historyCopy = [];
       historyCopy = [...state.history];
       const historyFiltered = historyCopy.filter(
-        expression => expression.id !== action.payload,
+        (expression, key) => key !== action.payload,
       );
       return {
         ...state,
         history: historyFiltered,
       };
     }
-    case 'DELETE_ALL_HISTORIES': {
+    case 'DELETE_ALL': {
       return {
         ...state,
         history: [],

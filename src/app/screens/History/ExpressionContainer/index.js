@@ -1,6 +1,13 @@
 import React, {useState} from 'react';
-import {View, TextInput, ImageBackground, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 import {connect} from 'react-redux';
+import {useEffect} from 'react';
 
 import actionHistory from '../../../redux/history/actions';
 import {retrieveButtons} from '../../Home/utils';
@@ -8,12 +15,17 @@ import styles from './styles';
 
 const ExpressionContainer = ({
   expression,
-  key,
+  id,
   editExpressionHistory,
   deleteHistoryForId,
 }) => {
+  useEffect(() => {
+    setTypeExpression(expression);
+  }, [expression]);
+
+  const [display, setDisplay] = useState('');
   const [typeExpression, setTypeExpression] = useState('');
-  let GET_BUTTONS = retrieveButtons(typeExpression, setTypeExpression);
+  let GET_BUTTONS = retrieveButtons(display, setDisplay, setTypeExpression);
 
   const leerPresionado = target => {
     GET_BUTTONS.find(button => button.label === target).action();
@@ -32,11 +44,14 @@ const ExpressionContainer = ({
                 'Introduzca números o caracteres de una calculadora.',
               );
         }}
-        style={styles.textResultado}>
-        {display}
-      </TextInput>
+        placeholder={typeExpression.split(/[=]/)[0]}
+        placeholderTextColor={'white'}
+        style={[styles.textValues, styles.inputText]}
+      />
+      <Text style={styles.textIqual}>=</Text>
+      <Text style={styles.textValues}>{typeExpression.split(/[=]/)[1]}</Text>
       <View style={styles.boxButtons}>
-        <TouchableOpacity onPress={() => deleteHistoryForId(key)}>
+        <TouchableOpacity onPress={() => deleteHistoryForId(id)}>
           <ImageBackground
             style={[styles.buttonOption, styles.red]}
             source={{
@@ -44,7 +59,13 @@ const ExpressionContainer = ({
             }}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => editExpressionHistory}>
+        <TouchableOpacity
+          onPress={() =>
+            editExpressionHistory({
+              newExpression: typeExpression,
+              id,
+            })
+          }>
           <ImageBackground
             style={[styles.buttonOption, styles.yellow]}
             source={{

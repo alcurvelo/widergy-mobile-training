@@ -33,7 +33,8 @@ export const getSolveOperation =
           )
             [consultExpression[1]].toLocaleString('es-ES')
             .replace('.', ',');
-          setSaveExpression(display.concat('=').concat(solverOp));
+          setSaveExpression &&
+            setSaveExpression(display.concat('=').concat(solverOp));
           setDisplay(solverOp);
         }
       }

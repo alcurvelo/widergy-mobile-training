@@ -7,7 +7,7 @@ export default StyleSheet.create({
   boxHistory: {
     marginBottom: 5,
     width: '100%',
-    height: 50,
+    minHeight: 50,
     backgroundColor: '#4bcaf9',
     display: 'flex',
     flexDirection: 'row',
@@ -26,6 +26,10 @@ export default StyleSheet.create({
     width: '40%',
     textAlign: 'center',
     color: 'white',
+  },
+  inputText: {
+    backgroundColor: '#019848',
+    borderRadius: 10,
   },
   boxButtons: {
     width: '10%',

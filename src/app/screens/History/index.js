@@ -6,21 +6,21 @@ import ExpressionContainer from './ExpressionContainer';
 import actionHistory from '../../redux/history/actions';
 import styles from './styles';
 
-const History = ({navigation, history, getHistories, deleteAllHistories}) => {
-  let expressions = ['24 + 36 = 60', '25 - 275 = -250'];
+const History = ({navigation, history, deleteAll}) => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.boxHistories}>
         <View style={styles.optionsGlobal}>
           <TouchableOpacity style={styles.buttonGlobal}>
-            <Text onPress={() => deleteAllHistories} style={styles.textButton}>
+            <Text onPress={() => deleteAll(history)} style={styles.textButton}>
               Borrar todos
             </Text>
           </TouchableOpacity>
         </View>
-        {expressions.map((expression, key) => (
-          <ExpressionContainer key={key} expression={expression} />
-        ))}
+        {history.length > 0 &&
+          history.map((expression, key) => (
+            <ExpressionContainer key={key} id={key} expression={expression} />
+          ))}
       </ScrollView>
       <View style={styles.boxNavButtons}>
         <TouchableOpacity
@@ -43,9 +43,6 @@ const mapStateToProps = state => {
   };
 };
 const mapDispatchToProps = {
-  getHistories: actionHistory.getHistories,
-  editExpressionHistory: actionHistory.editExpressionHistory,
-  deleleteAllHistories: actionHistory.deleteAllHistories,
-  deleteHistoryForId: actionHistory.deleteHistoryForId,
+  deleteAll: actionHistory.deleteAll,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(History);
