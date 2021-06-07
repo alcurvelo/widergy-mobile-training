@@ -24,7 +24,7 @@ export const getSolveOperation =
       let consultExpression = result.split(/ /);
       if (consultExpression.length === 3) {
         if (consultExpression[2] === '0' && consultExpression[1] === '/') {
-          Toast('Indeterminado', 'LONG', 'CENTER');
+          Toast('Indeterminado');
           setDisplay('');
         } else {
           let solverOp = operation(
@@ -42,7 +42,7 @@ export const getSolveOperation =
       if (buscaOperador.length < 2 && display.length !== 0) {
         setDisplay(display);
       } else {
-        Toast('Error: no es una operación valida.', 'LONG', 'CENTER');
+        Toast('Error: no es una operación valida.');
         setDisplay('');
       }
     }
