@@ -5,7 +5,7 @@ import ExpressionContainer from './ExpressionContainer';
 import styles from './styles';
 
 const History = ({navigation}) => {
-  let expressions = ['24 + 36 = 60', '25 - 275 = -250'];
+  const expressions = ['24 + 36 = 60', '25 - 275 = -250'];
   return (
     <View style={styles.container}>
       <ScrollView style={styles.boxHistories}>
