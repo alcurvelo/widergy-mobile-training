@@ -6,19 +6,14 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
 
 import actionHistory from '../../../redux/history/actions';
 import {retrieveButtons} from '../../Home/utils';
 import styles from './styles';
 
-const ExpressionContainer = ({
-  expression,
-  id,
-  editExpressionHistory,
-  deleteHistoryForId,
-}) => {
+const ExpressionContainer = ({expression, id}) => {
   useEffect(() => {
     setTypeExpression(expression);
   }, [expression]);
@@ -26,6 +21,7 @@ const ExpressionContainer = ({
   const [display, setDisplay] = useState('');
   const [typeExpression, setTypeExpression] = useState('');
   let GET_BUTTONS = retrieveButtons(display, setDisplay, setTypeExpression);
+  const dispatch = useDispatch();
 
   const leerPresionado = target => {
     GET_BUTTONS.find(button => button.label === target).action();
@@ -51,7 +47,8 @@ const ExpressionContainer = ({
       <Text style={styles.textIqual}>=</Text>
       <Text style={styles.textValues}>{typeExpression.split(/[=]/)[1]}</Text>
       <View style={styles.boxButtons}>
-        <TouchableOpacity onPress={() => deleteHistoryForId(id)}>
+        <TouchableOpacity
+          onPress={() => dispatch(actionHistory.deleteHistoryForId(id))}>
           <ImageBackground
             style={[styles.buttonOption, styles.red]}
             source={{
@@ -61,10 +58,12 @@ const ExpressionContainer = ({
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
-            editExpressionHistory({
-              newExpression: typeExpression,
-              id,
-            })
+            dispatch(
+              actionHistory.editExpressionHistory({
+                newExpression: typeExpression,
+                id,
+              }),
+            )
           }>
           <ImageBackground
             style={[styles.buttonOption, styles.yellow]}
@@ -77,8 +76,4 @@ const ExpressionContainer = ({
     </View>
   );
 };
-const mapDispatchToProps = {
-  editExpressionHistory: actionHistory.editExpressionHistory,
-  deleteHistoryForId: actionHistory.deleteHistoryForId,
-};
-export default connect(null, mapDispatchToProps)(ExpressionContainer);
+export default ExpressionContainer;

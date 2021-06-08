@@ -1,18 +1,23 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import ExpressionContainer from './ExpressionContainer';
 import actionHistory from '../../redux/history/actions';
 import styles from './styles';
 
-const History = ({navigation, history, deleteAll}) => {
+const History = ({navigation}) => {
+  const dispatch = useDispatch();
+  const history = useSelector(store => store.historyR.history);
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.boxHistories}>
         <View style={styles.optionsGlobal}>
           <TouchableOpacity style={styles.buttonGlobal}>
-            <Text onPress={() => deleteAll(history)} style={styles.textButton}>
+            <Text
+              onPress={() => dispatch(actionHistory.deleteAll(history))}
+              style={styles.textButton}>
               Borrar todos
             </Text>
           </TouchableOpacity>
@@ -37,12 +42,4 @@ const History = ({navigation, history, deleteAll}) => {
     </View>
   );
 };
-const mapStateToProps = state => {
-  return {
-    history: state.historyReducer.history,
-  };
-};
-const mapDispatchToProps = {
-  deleteAll: actionHistory.deleteAll,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(History);
+export default History;

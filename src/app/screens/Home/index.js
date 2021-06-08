@@ -7,23 +7,23 @@ import {
   Text,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import styles from './styles';
 import Button from './components/Button';
 import {retrieveButtons} from './utils';
+
 import actionHistory from '../../redux/history/actions';
 
-const Home = ({navigation, setHistory}) => {
-  //Variables y funcionesa
+const Home = ({navigation}) => {
   const [display, setDisplay] = useState('');
   const [saveExpression, setSaveExpression] = useState('');
+  const dispatch = useDispatch();
   let GET_BUTTONS = retrieveButtons(display, setDisplay, setSaveExpression);
 
   const leerPresionado = target => {
     GET_BUTTONS.find(button => button.label === target).action();
   };
-  //Fin de variables y funciones
   return (
     <KeyboardAwareScrollView style={styles.contain}>
       <View style={styles.containerCalculator}>
@@ -40,7 +40,8 @@ const Home = ({navigation, setHistory}) => {
               <View style={styles.boxButtonHistory}>
                 <TouchableOpacity
                   onPress={() =>
-                    saveExpression.length > 0 && setHistory(saveExpression)
+                    saveExpression.length > 0 &&
+                    dispatch(actionHistory.setHistory(saveExpression))
                   }>
                   <ImageBackground
                     style={[styles.buttonOption, styles.red]}
@@ -92,7 +93,4 @@ const Home = ({navigation, setHistory}) => {
     </KeyboardAwareScrollView>
   );
 };
-const mapDispatchToprops = {
-  setHistory: actionHistory.setHistory,
-};
-export default connect(null, mapDispatchToprops)(Home);
+export default Home;
