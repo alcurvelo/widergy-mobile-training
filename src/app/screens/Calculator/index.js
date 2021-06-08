@@ -4,43 +4,37 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import styles from './styles';
 import Button from './components/Button';
-import { retrieveButtons } from './utils';
+import {retrieveButtons, execOpKeyboardKeyPresed} from './utils';
 
 const Calculator = () => {
-  //Variables y funcionesa
   const [display, setDisplay] = useState('');
+  const buttons = retrieveButtons(display, setDisplay);
 
-  const leerPresionado = target => {
-    GET_BUTTONS.find(button => button.label === target).action();
-  };
-
-  let GET_BUTTONS = retrieveButtons(display, setDisplay);
-
-  //Fin de variables y funciones
   return (
     <KeyboardAwareScrollView style={styles.contain}>
-      <View style={styles.containerCalculadora}>
-        <View style={styles.boxPantalla}>
-          <View style={styles.pantalla}>
+      <View style={styles.containerCalculator}>
+        <View style={styles.boxScreen}>
+          <View style={styles.screen}>
             <TextInput
-              onKeyPress={({nativeEvent}) => {
-                (nativeEvent.key.match(/[0123456789]/) ||
-                  nativeEvent.key.match(/[+-/=%*,]/)) != null
-                  ? leerPresionado(nativeEvent.key)
-                  : nativeEvent.key == 'Backspace'
-                  ? GET_BUTTONS.find(button => button.label == '<').action()
-                  : console.warn(
-                      'Introduzca números o caracteres de una calculadora.',
-                    );
-              }}
-              style={styles.textResultado}>
+              onKeyPress={({nativeEvent}) =>
+                execOpKeyboardKeyPresed(nativeEvent.key, buttons)
+              }
+              style={styles.textResult}>
               {display}
             </TextInput>
           </View>
         </View>
         <View style={styles.boxButtons}>
-          {GET_BUTTONS.map((button, key) => {
-            return <Button key={key} button={button} />;
+          {buttons.map((button, key) => {
+            return (
+              <Button
+                key={key}
+                label={button.label}
+                onPress={button.action}
+                style={button.style}
+                variantStyle={button.variantStyle}
+              />
+            );
           })}
         </View>
       </View>

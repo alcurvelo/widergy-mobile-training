@@ -8,7 +8,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#4bcaf9',
   },
-  bienvenidaContent: {
+  welcomeContent: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -22,10 +22,10 @@ export default StyleSheet.create({
     width: 120,
     height: 120,
   },
-  nombreEmpresa: {
+  nameBusiness: {
     color: '#ffb200',
   },
-  textBienvenida: {
+  textWelcome: {
     fontSize: 18,
     color: '#f8f8f8',
     fontWeight: 'bold',
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     width: '90%',
     height: 100,
   },
-  bCalculadora: {
+  bCalculator: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -48,7 +48,7 @@ export default StyleSheet.create({
     backgroundColor: '#ffb200',
     borderRadius: 10,
   },
-  bCalculadoraText: {
+  bCalculatorText: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#f8f8f8',

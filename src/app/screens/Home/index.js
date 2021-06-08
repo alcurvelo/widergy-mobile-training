@@ -9,20 +9,20 @@ const Home = ({navigation}) => {
         style={styles.viewLogo}
         source={require('../../assets/logo.png')}
       />
-      <View style={styles.bienvenidaContent}>
-        <Text style={styles.textBienvenida}>
+      <View style={styles.welcomeContent}>
+        <Text style={styles.textWelcome}>
           Mi primer App, ejercicio hecho con fines de presentacion al training
-          proporcionado por <Text style={styles.nombreEmpresa}>Widergy</Text>
+          proporcionado por <Text style={styles.nameBusiness}>Widergy</Text>
         </Text>
       </View>
       <View style={styles.buttonsGroup}>
-        <Text style={[styles.textBienvenida, styles.green]}>
+        <Text style={[styles.textWelcome, styles.green]}>
           Presiona en la opción deseada
         </Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('Calculator')}
-          style={styles.bCalculadora}>
-          <Text style={styles.bCalculadoraText}>Calculadora</Text>
+          style={styles.bCalculator}>
+          <Text style={styles.bCalculatorText}>Calculadora</Text>
         </TouchableOpacity>
       </View>
     </View>
