@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import About from '../../screens/About';
 import Home from '../../screens/Home';
 import History from '../../screens/History';
+import LoginAndRegister from '../../screens/LoginAndRegister';
 
 import Routes from '../Routes';
 
@@ -16,6 +17,13 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{cardStyle: styles.card}}>
+        <Stack.Screen
+          name={Routes.LoginAndRegister}
+          component={LoginAndRegister}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name={Routes.Home}
           component={Home}
