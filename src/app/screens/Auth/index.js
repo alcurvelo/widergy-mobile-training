@@ -1,12 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Text, View, TouchableOpacity, ImageBackground} from 'react-native';
+import {useDispatch} from 'react-redux';
 
+import actionsAuth from '../../redux/auth/actions';
 import Input from './components/Input';
 import styles from './styles';
 
-const LoginAndRegister = () => {
+const Auth = ({navigation}) => {
   const [screenView, setScreenView] = useState(true);
   const [values, setValues] = useState({});
+  const dispatch = useDispatch();
 
   const readInput = (text, nameInput) => {
     setValues({
@@ -14,7 +17,7 @@ const LoginAndRegister = () => {
       [nameInput]: text,
     });
   };
-  console.log(values);
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -68,7 +71,13 @@ const LoginAndRegister = () => {
             />
           </>
         )}
-        <TouchableOpacity style={styles.buttonConfirm}>
+        <TouchableOpacity
+          onPress={() => {
+            screenView
+              ? dispatch(actionsAuth.signIn(values))
+              : dispatch(actionsAuth.newUser(values));
+          }}
+          style={styles.buttonConfirm}>
           <Text style={styles.textButonConfirm}>
             {screenView ? 'Entrar' : 'Regístrar'}
           </Text>
@@ -88,4 +97,4 @@ const LoginAndRegister = () => {
     </View>
   );
 };
-export default LoginAndRegister;
+export default Auth;

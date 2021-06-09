@@ -1,6 +1,6 @@
 import Toast from '../components/Toast';
 
-export const actionHistory = {
+const actionHistory = {
   getHistories: () => dispatch => {
     dispatch({type: 'GET_HISTORIES'});
   },

@@ -15,6 +15,7 @@ const Input = ({
       style={styles.input}
       onChangeText={text => onChange(text, nameInput)}
       placeholder={placeholder}
+      placeholderTextColor="#2f2100"
       secureTextEntry={secureTextEntry}
       value={values[nameInput] ? values[nameInput] : ''}
     />

@@ -9,5 +9,13 @@ const styles = StyleSheet.create({
     elevation: 0,
     height: 40,
   },
+  bLogout: {
+    marginRight: 15,
+  },
+  bLogoutText: {
+    color: '#8a2a2a',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });
 export default styles;
