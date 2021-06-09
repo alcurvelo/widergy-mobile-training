@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
 import {Text, View, TouchableOpacity, ImageBackground} from 'react-native';
 
 import Input from './components/Input';
@@ -8,12 +7,12 @@ import styles from './styles';
 const LoginAndRegister = () => {
   const [screenView, setScreenView] = useState(true);
   const [values, setValues] = useState({});
-  const readInput = (target) => {
-    console.log(target);
-    /*
+
+  const readInput = (text, nameInput) => {
     setValues({
-      [target.nameInput]: target.value,
-    });*/
+      ...values,
+      [nameInput]: text,
+    });
   };
   console.log(values);
   return (
@@ -33,18 +32,52 @@ const LoginAndRegister = () => {
             <Input
               placeholder="Correo eléctronico"
               nameInput="email"
-              readInput={readInput}
+              onChange={readInput}
+              values={values}
             />
             <Input
               placeholder="Contraseña"
               nameInput="password"
-              readInput={readInput}
+              onChange={readInput}
+              secureTextEntry={true}
+              values={values}
             />
           </>
         ) : (
-          <Text style={styles.titleBox}>Ingresa tus datos y regístrate</Text>
+          <>
+            <Text style={styles.titleBox}>Ingresa tus datos y regístrate</Text>
+            <Input
+              placeholder="Correo eléctronico"
+              nameInput="email"
+              onChange={readInput}
+              values={values}
+            />
+            <Input
+              placeholder="Contraseña"
+              nameInput="password"
+              onChange={readInput}
+              secureTextEntry={true}
+              values={values}
+            />
+            <Input
+              placeholder="Confirma la contraseña"
+              nameInput="confirmPassword"
+              onChange={readInput}
+              secureTextEntry={true}
+              values={values}
+            />
+          </>
         )}
-        <TouchableOpacity onPress={() => setScreenView(!screenView)}>
+        <TouchableOpacity style={styles.buttonConfirm}>
+          <Text style={styles.textButonConfirm}>
+            {screenView ? 'Entrar' : 'Regístrar'}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setScreenView(!screenView);
+            setValues({});
+          }}>
           <Text style={styles.textButtonChange}>
             {screenView
               ? '¿Nó tenés cuenta?, Regístrate'
@@ -55,5 +88,4 @@ const LoginAndRegister = () => {
     </View>
   );
 };
-const mapDispatchToProps = {};
-export default connect(null, mapDispatchToProps)(LoginAndRegister);
+export default LoginAndRegister;

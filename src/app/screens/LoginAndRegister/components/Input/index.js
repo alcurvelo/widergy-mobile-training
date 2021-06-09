@@ -3,13 +3,20 @@ import {TextInput} from 'react-native';
 
 import styles from './styles';
 
-const Input = ({placeholder, nameInput, readInput}) => {
+const Input = ({
+  placeholder,
+  nameInput,
+  onChange,
+  secureTextEntry = false,
+  values,
+}) => {
   return (
     <TextInput
       style={styles.input}
-      onChange={e => readInput(e)}
-      nameInput={nameInput}
+      onChangeText={text => onChange(text, nameInput)}
       placeholder={placeholder}
+      secureTextEntry={secureTextEntry}
+      value={values[nameInput] ? values[nameInput] : ''}
     />
   );
 };
