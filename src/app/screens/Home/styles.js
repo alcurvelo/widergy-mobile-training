@@ -13,7 +13,6 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
   },
   boxHistory: {
-    marginBottom: 5,
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -59,6 +58,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     display: 'flex',
     justifyContent: 'center',
+    minHeight: 50,
   },
   textResult: {
     fontSize: 22,

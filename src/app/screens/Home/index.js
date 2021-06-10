@@ -17,8 +17,8 @@ import actionHistory from '../../redux/history/actions';
 
 const Home = ({navigation}) => {
   const [display, setDisplay] = useState('');
-  const buttons = retrieveButtons(display, setDisplay, setSaveExpression);
   const [saveExpression, setSaveExpression] = useState('');
+  const buttons = retrieveButtons(display, setDisplay, setSaveExpression);
   const dispatch = useDispatch();
 
   return (
@@ -75,18 +75,18 @@ const Home = ({navigation}) => {
             );
           })}
         </View>
-        <View style={styles.boxNavButtons}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('History')}
-            style={styles.buttonNav}>
-            <Text style={styles.buttonNavText}>Historial</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('About')}
-            style={styles.buttonNav}>
-            <Text style={styles.buttonNavText}>Acerca de</Text>
-          </TouchableOpacity>
-        </View>
+      </View>
+      <View style={styles.boxNavButtons}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('History')}
+          style={styles.buttonNav}>
+          <Text style={styles.buttonNavText}>Historial</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('About')}
+          style={styles.buttonNav}>
+          <Text style={styles.buttonNavText}>Acerca de</Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAwareScrollView>
   );
