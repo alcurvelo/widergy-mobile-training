@@ -2,9 +2,6 @@ import {createTypes, completeTypes} from 'redux-recompose';
 
 import Toast from '../components/Toast';
 
-<<<<<<< HEAD
-const actionHistory = {
-=======
 export const actions = createTypes(
   completeTypes({
     primaryActions: [
@@ -65,7 +62,6 @@ const privateActionsCreator = {
 };
 
 export const actionCreators = {
->>>>>>> etoWithRedux
   getHistories: () => dispatch => {
     dispatch({type: 'GET_HISTORIES', target: HISTORY_TARGET});
     const response = 'ServiceHistory.getHistories()';
