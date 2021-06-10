@@ -76,4 +76,25 @@ export default StyleSheet.create({
     backgroundColor: '#ffb200',
     borderRadius: 5,
   },
+  boxNavButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 2,
+  },
+  buttonNav: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '45%',
+    height: 40,
+    backgroundColor: '#ffb200',
+    borderRadius: 10,
+  },
+  buttonNavText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#f8f8f8',
+  },
 });
