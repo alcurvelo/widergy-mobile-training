@@ -17,7 +17,7 @@ const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   const dispatch = useDispatch();
-  const tokenExist = useSelector(state => state.authReducer.token);
+  const tokenExist = useSelector(state => state.authR.token);
 
   useEffect(() => {
     dispatch(actionsAuth.userLoged());
@@ -30,7 +30,7 @@ const AppNavigator = () => {
     headerRight: () => {
       return (
         <TouchableOpacity
-          onPress={() => dispatch(actionsAuth.logout(tokenExist))}
+          onPress={() => dispatch(actionsAuth.logout())}
           style={styles.bLogout}>
           <Text style={styles.bLogoutText}>Cerrar sesión</Text>
         </TouchableOpacity>

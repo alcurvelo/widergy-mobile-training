@@ -1,16 +1,16 @@
 import api from '../config/api';
 
-//const AUTH_HEADER = 'Authorization';
-
 export default {
   singIn: async user => {
-    return await api.post('/auth/login', user, {timeout: 60000});
+    return await api.post('/auth/login', user);
   },
   newUser: async user => {
-    return await api.post('/auth/create', user, {timeout: 60000});
+    return await api.post('/auth/create', user);
   },
-  logout: async token => {
+  logout: async () => {
+    return await api.get('/auth/logout');
+  },
+  setHeaderToken: async token => {
     api.setHeader('Authorization', `Bearer ${token}`);
-    return await api.get('/auth/logout', {timeout: 60000});
   },
 };

@@ -7,6 +7,7 @@ const actionsAuth = {
     const response = await AuthService.singIn(user);
     if (response.ok) {
       storagePersist.setElementStorage(response.data.token, 'token');
+      AuthService.setHeaderToken(response.data.token);
       dispatch({type: 'SIGN_IN', payload: response.data});
     } else {
       Toast(response.data.error, 'LONG', 'CENTER', 25, 0);
@@ -18,6 +19,7 @@ const actionsAuth = {
       const response = await AuthService.newUser(user);
       if (response.ok) {
         storagePersist.setElementStorage(response.data.token, 'token');
+        AuthService.setHeaderToken(response.data.token);
         dispatch({type: 'NEW_USER', payload: response.data});
       } else {
         Toast(response.data.error, 'LONG', 'CENTER', 25, 0);
@@ -35,11 +37,12 @@ const actionsAuth = {
   userLoged: () => async dispatch => {
     const token = await storagePersist.getElementStorage('token');
     if (token !== false) {
+      AuthService.setHeaderToken(token);
       dispatch({type: 'USER_LOGED', payload: token});
     }
   },
-  logout: token => async dispatch => {
-    const response = await AuthService.logout(token);
+  logout: () => async dispatch => {
+    const response = await AuthService.logout();
     if (response.ok) {
       Toast(response.data.message, 'LONG', 'CENTER', 25, 0);
       storagePersist.removeItem('token');
