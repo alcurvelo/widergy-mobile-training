@@ -1,29 +1,26 @@
 import React, {useState} from 'react';
 import {
   View,
-  ImageBackground,
   TextInput,
-  TouchableOpacity,
   Text,
+  TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch} from 'react-redux';
 
 import styles from './styles';
 import Button from './components/Button';
-import {retrieveButtons} from './utils';
+import {retrieveButtons, execOpKeyboardKeyPresed} from './utils';
 
 import actionHistory from '../../redux/history/actions';
 
 const Home = ({navigation}) => {
   const [display, setDisplay] = useState('');
+  const buttons = retrieveButtons(display, setDisplay, setSaveExpression);
   const [saveExpression, setSaveExpression] = useState('');
   const dispatch = useDispatch();
-  let GET_BUTTONS = retrieveButtons(display, setDisplay, setSaveExpression);
 
-  const leerPresionado = target => {
-    GET_BUTTONS.find(button => button.label === target).action();
-  };
   return (
     <KeyboardAwareScrollView style={styles.contain}>
       <View style={styles.containerCalculator}>
@@ -54,41 +51,42 @@ const Home = ({navigation}) => {
             </>
           )}
         </View>
-        <View style={styles.boxPantalla}>
-          <View style={styles.pantalla}>
+        <View style={styles.boxScreen}>
+          <View style={styles.screen}>
             <TextInput
-              onKeyPress={({nativeEvent}) => {
-                (nativeEvent.key.match(/[0123456789]/) ||
-                  nativeEvent.key.match(/[+-/=%*,]/)) != null
-                  ? leerPresionado(nativeEvent.key)
-                  : nativeEvent.key === 'Backspace'
-                  ? GET_BUTTONS.find(button => button.label === '<').action()
-                  : console.warn(
-                      'Introduzca números o caracteres de una calculadora.',
-                    );
-              }}
-              style={styles.textResultado}>
+              onKeyPress={({nativeEvent}) =>
+                execOpKeyboardKeyPresed(nativeEvent.key, buttons)
+              }
+              style={styles.textResult}>
               {display}
             </TextInput>
           </View>
         </View>
         <View style={styles.boxButtons}>
-          {GET_BUTTONS.map((button, key) => {
-            return <Button key={key} button={button} />;
+          {buttons.map((button, key) => {
+            return (
+              <Button
+                key={key}
+                label={button.label}
+                onPress={button.action}
+                style={button.style}
+                variantStyle={button.variantStyle}
+              />
+            );
           })}
         </View>
-      </View>
-      <View style={styles.boxNavButtons}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('History')}
-          style={styles.buttonNav}>
-          <Text style={styles.buttonNavText}>Historial</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('About')}
-          style={styles.buttonNav}>
-          <Text style={styles.buttonNavText}>Acerca de</Text>
-        </TouchableOpacity>
+        <View style={styles.boxNavButtons}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('History')}
+            style={styles.buttonNav}>
+            <Text style={styles.buttonNavText}>Historial</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('About')}
+            style={styles.buttonNav}>
+            <Text style={styles.buttonNavText}>Acerca de</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </KeyboardAwareScrollView>
   );
