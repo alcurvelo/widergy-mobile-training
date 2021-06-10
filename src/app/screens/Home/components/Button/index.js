@@ -8,7 +8,7 @@ const Button = ({label, onPress, style, variantStyle}) => {
       activeOpacity={0.45}
       underlayColor="#4bcaf9"
       onPress={onPress}
-      style={[styles.boxButton, variantStyle && variantStyle]}>
+      style={[styles.boxButton, variantStyle]}>
       <View style={[styles.button, style]}>
         <Text style={styles.textButton}>{label}</Text>
       </View>

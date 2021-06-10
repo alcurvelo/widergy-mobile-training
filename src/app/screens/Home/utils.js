@@ -24,7 +24,7 @@ export const execOpKeyboardKeyPresed = (keyPresed, buttons) => {
 
 export const getSolveOperation = (display, setDisplay) => () => {
   let result = '';
-  let exp = RegExp(/^(-?\d*(,\d*)?)([+|\-|*|/|%]{1})(-?\d*(,\d*)?)$/);
+  const exp = RegExp(/^(-?\d*(,\d*)?)([+|\-|*|/|%]{1})(-?\d*(,\d*)?)$/);
   if (display.replace(/ /g, '').match(exp) != null) {
     result = display.replace(/,/g, '.');
     let consultExpression = result.split(/ /);
