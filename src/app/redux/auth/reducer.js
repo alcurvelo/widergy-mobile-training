@@ -2,7 +2,7 @@ export const initialState = {
   token: false,
 };
 
-export function authReducer(state = initialState, action) {
+export function authR(state = initialState, action) {
   switch (action.type) {
     case 'SIGN_IN': {
       return {
