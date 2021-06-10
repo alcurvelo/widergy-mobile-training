@@ -10,7 +10,6 @@ export default StyleSheet.create({
   button: {
     flex: 1,
     backgroundColor: '#00d564',
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,

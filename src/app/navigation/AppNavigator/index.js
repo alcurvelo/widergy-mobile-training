@@ -11,6 +11,11 @@ import Routes from '../Routes';
 import styles from './styles';
 
 const Stack = createStackNavigator();
+const optionScreenDefault = {
+  headerTintColor: 'white',
+  headerShown: true,
+  headerStyle: styles.header,
+};
 
 const AppNavigator = () => {
   return (
@@ -19,20 +24,12 @@ const AppNavigator = () => {
         <Stack.Screen
           name={Routes.Home}
           component={Home}
-          options={{
-            headerTintColor: 'white',
-            headerShown: true,
-            headerStyle: styles.header,
-          }}
+          options={optionScreenDefault}
         />
         <Stack.Screen
           name={Routes.History}
           component={History}
-          options={{
-            headerTintColor: 'white',
-            headerShown: true,
-            headerStyle: styles.header,
-          }}
+          options={optionScreenDefault}
         />
         <Stack.Screen
           name={Routes.About}

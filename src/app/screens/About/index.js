@@ -1,14 +1,13 @@
 import React from 'react';
 import {View, Text, ImageBackground, TouchableOpacity} from 'react-native';
+
 import styles from './styles';
+import logo from '../../assets/logo.png';
 
 const About = ({navigation}) => {
   return (
     <View style={styles.contain}>
-      <ImageBackground
-        style={styles.viewLogo}
-        source={require('../../assets/logo.png')}
-      />
+      <ImageBackground style={styles.viewLogo} source={logo} />
       <View style={styles.bienvenidaContent}>
         <Text style={styles.textBienvenida}>
           Mi primer App, ejercicio hecho con fines de presentacion al training
