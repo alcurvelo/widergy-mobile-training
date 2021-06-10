@@ -1,13 +1,13 @@
 import {applyMiddleware, createStore, combineReducers, compose} from 'redux';
 import thunk from 'redux-thunk';
 
-import {historyReducer} from '../redux/history/reducer';
-import {authReducer} from '../redux/auth/reducer';
+import {historyR} from '../redux/history/reducer';
+import {authR} from '../redux/auth/reducer';
 import Reactotron from '../config/Reactotron';
 
 const reducers = combineReducers({
-  historyReducer,
-  authReducer,
+  historyR,
+  authR,
 });
 
 const store = createStore(

@@ -15,16 +15,24 @@ const operation = (numberOne, numberTwo) => {
   };
 };
 
+export const execOpKeyboardKeyPresed = (keyPresed, buttons) => {
+  (keyPresed.match(/[0123456789]/) || keyPresed.match(/[+-/=%*,]/)) != null
+    ? buttons.find(button => button.label === keyPresed).action()
+    : keyPresed === 'Backspace'
+    ? buttons.find(button => button.label === '<').action()
+    : console.warn('Introduzca números o caracteres de una calculadora.');
+};
+
 export const getSolveOperation =
   (display, setDisplay, setSaveExpression) => () => {
     let result = '';
-    let exp = RegExp(/^(-?\d*(,\d*)?)([+|\-|*|/|%]{1})(-?\d*(,\d*)?)$/);
+    const exp = RegExp(/^(-?\d*(,\d*)?)([+|\-|*|/|%]{1})(-?\d*(,\d*)?)$/);
     if (display.replace(/ /g, '').match(exp) != null) {
       result = display.replace(/,/g, '.');
       let consultExpression = result.split(/ /);
       if (consultExpression.length === 3) {
         if (consultExpression[2] === '0' && consultExpression[1] === '/') {
-          Toast('Indeterminado');
+          console.warn('Indeterminado');
           setDisplay('');
         } else {
           let solverOp = operation(
@@ -145,6 +153,7 @@ export const retrieveButtons = (display, setDisplay, setSaveExpression) => {
     {
       label: '0',
       action: () => setExpression('0'),
+      variantStyle: styles.specialButton,
     },
     {
       label: ',',

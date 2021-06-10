@@ -8,12 +8,11 @@ export default StyleSheet.create({
   },
   containerCalculator: {
     backgroundColor: '#00d564',
-    height: 500,
+    height: 520,
     borderRadius: 10,
     flexWrap: 'wrap',
   },
   boxHistory: {
-    marginBottom: 5,
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -46,23 +45,22 @@ export default StyleSheet.create({
     height: 20,
     borderRadius: 2,
   },
-  boxPantalla: {
+  boxScreen: {
     backgroundColor: '#00d564',
     width: '100%',
-    minHeight: '5%',
-    paddingHorizontal: 20,
-    paddingBottom: 10,
+    padding: 20,
     borderRadius: 10,
     flex: 0.5,
   },
-  pantalla: {
+  screen: {
     flex: 1,
     backgroundColor: '#ffb200',
     borderRadius: 10,
     display: 'flex',
     justifyContent: 'center',
+    minHeight: 50,
   },
-  textResultado: {
+  textResult: {
     fontSize: 22,
     fontWeight: 'bold',
     width: '100%',
