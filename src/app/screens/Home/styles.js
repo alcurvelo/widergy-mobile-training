@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   containerCalculator: {
     backgroundColor: '#00d564',
-    height: 500,
+    height: 520,
     borderRadius: 10,
     flexWrap: 'wrap',
   },
