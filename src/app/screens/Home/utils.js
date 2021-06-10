@@ -14,6 +14,14 @@ const operation = (numberOne, numberTwo) => {
   };
 };
 
+export const execOpKeyboardKeyPresed = (keyPresed, buttons) => {
+  (keyPresed.match(/[0123456789]/) || keyPresed.match(/[+-/=%*,]/)) != null
+    ? buttons.find(button => button.label === keyPresed).action()
+    : keyPresed === 'Backspace'
+    ? buttons.find(button => button.label === '<').action()
+    : console.warn('Introduzca números o caracteres de una calculadora.');
+};
+
 export const getSolveOperation = (display, setDisplay) => () => {
   let result = '';
   let exp = RegExp(/^(-?\d*(,\d*)?)([+|\-|*|/|%]{1})(-?\d*(,\d*)?)$/);
@@ -138,6 +146,7 @@ export const retrieveButtons = (display, setDisplay) => {
     {
       label: '0',
       action: () => setExpression('0'),
+      variantStyle: styles.specialButton,
     },
     {
       label: ',',
