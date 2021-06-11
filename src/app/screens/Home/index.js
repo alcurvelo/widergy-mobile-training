@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TextInput,
@@ -6,16 +6,16 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {useDispatch} from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useDispatch } from 'react-redux';
 
 import styles from './styles';
 import Button from './components/Button';
-import {retrieveButtons, execOpKeyboardKeyPresed} from './utils';
+import { retrieveButtons, execOpKeyboardKeyPresed } from './utils';
 
 import actionHistory from '../../redux/history/actions';
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
   const [display, setDisplay] = useState('');
   const [saveExpression, setSaveExpression] = useState('');
   const buttons = retrieveButtons(display, setDisplay, setSaveExpression);
@@ -39,7 +39,8 @@ const Home = ({navigation}) => {
                   onPress={() =>
                     saveExpression.length > 0 &&
                     dispatch(actionHistory.setHistory(saveExpression))
-                  }>
+                  }
+                >
                   <ImageBackground
                     style={[styles.buttonOption, styles.red]}
                     source={{
@@ -54,10 +55,11 @@ const Home = ({navigation}) => {
         <View style={styles.boxScreen}>
           <View style={styles.screen}>
             <TextInput
-              onKeyPress={({nativeEvent}) =>
+              onKeyPress={({ nativeEvent }) =>
                 execOpKeyboardKeyPresed(nativeEvent.key, buttons)
               }
-              style={styles.textResult}>
+              style={styles.textResult}
+            >
               {display}
             </TextInput>
           </View>
@@ -79,12 +81,14 @@ const Home = ({navigation}) => {
       <View style={styles.boxNavButtons}>
         <TouchableOpacity
           onPress={() => navigation.navigate('History')}
-          style={styles.buttonNav}>
+          style={styles.buttonNav}
+        >
           <Text style={styles.buttonNavText}>Historial</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('About')}
-          style={styles.buttonNav}>
+          style={styles.buttonNav}
+        >
           <Text style={styles.buttonNavText}>Acerca de</Text>
         </TouchableOpacity>
       </View>

@@ -14,12 +14,10 @@ const History = ({navigation}) => {
     <View style={styles.container}>
       <ScrollView style={styles.boxHistories}>
         <View style={styles.optionsGlobal}>
-          <TouchableOpacity style={styles.buttonGlobal}>
-            <Text
-              onPress={() => dispatch(actionHistory.deleteAll(history))}
-              style={styles.textButton}>
-              Borrar todos
-            </Text>
+          <TouchableOpacity
+            onPress={() => dispatch(actionHistory.deleteAll(history))}
+            style={styles.buttonGlobal}>
+            <Text style={styles.textButton}>Borrar todos</Text>
           </TouchableOpacity>
         </View>
         {history.length > 0 &&

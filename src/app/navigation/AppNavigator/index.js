@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {useDispatch, useSelector} from 'react-redux';
-import {Text, View, TouchableOpacity} from 'react-native';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { useDispatch, useSelector } from 'react-redux';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { UTLoading } from '@widergy/mobile-ui';
 
 import About from '../../screens/About';
 import Home from '../../screens/Home';
@@ -17,7 +18,7 @@ const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   const dispatch = useDispatch();
-  const tokenExist = useSelector(state => state.authR.token);
+  const isAuthenticated = useSelector(state => !!state.authR.token);
 
   useEffect(() => {
     dispatch(actionsAuth.userLoged());
@@ -31,7 +32,8 @@ const AppNavigator = () => {
       return (
         <TouchableOpacity
           onPress={() => dispatch(actionsAuth.logout())}
-          style={styles.bLogout}>
+          style={styles.bLogout}
+        >
           <Text style={styles.bLogoutText}>Cerrar sesión</Text>
         </TouchableOpacity>
       );
@@ -40,16 +42,8 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{cardStyle: styles.card}}>
-        {!tokenExist ? (
-          <Stack.Screen
-            name={Routes.Auth}
-            component={Auth}
-            options={{
-              headerShown: false,
-            }}
-          />
-        ) : (
+      <Stack.Navigator screenOptions={{ cardStyle: styles.card }}>
+        {isAuthenticated ? (
           <>
             <Stack.Screen
               name={Routes.Home}
@@ -69,6 +63,14 @@ const AppNavigator = () => {
               }}
             />
           </>
+        ) : (
+          <Stack.Screen
+            name={Routes.Auth}
+            component={Auth}
+            options={{
+              headerShown: false,
+            }}
+          />
         )}
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,4 +1,4 @@
-import {createTypes, completeTypes} from 'redux-recompose';
+import { createTypes, completeTypes } from 'redux-recompose';
 
 import Toast from '../components/Toast';
 
@@ -54,16 +54,25 @@ const privateActionsCreator = {
     target: HISTORY_TARGET,
     payload,
   }),
+  deleteHistoryForIdFailure: payload => ({
+    type: actions.DELETE_HISTORY_FOR_ID_FAILURE,
+    target: HISTORY_TARGET,
+    payload,
+  }),
   delAllSuccess: () => ({
     type: actions.DEL_ALL_SUCCESS,
     target: HISTORY_TARGET,
     payload: [],
   }),
+  delAllFailure: () => ({
+    type: actions.DEL_ALL_FAILURE,
+    target: HISTORY_TARGET,
+  }),
 };
 
 export const actionCreators = {
   getHistories: () => dispatch => {
-    dispatch({type: 'GET_HISTORIES', target: HISTORY_TARGET});
+    dispatch({ type: actions.GET_HISTORIES, target: HISTORY_TARGET });
     const response = 'ServiceHistory.getHistories()';
     if (response.ok) {
       dispatch(privateActionsCreator.getHistoriesSuccess(response.data));
@@ -72,8 +81,8 @@ export const actionCreators = {
     }
   },
   setHistory: expression => dispatch => {
-    dispatch({type: 'SET_HISTORY', target: HISTORY_TARGET});
-    const response = {ok: true}; //'ServiceHistory.setHistorY()';
+    dispatch({ type: actions.SET_HISTORY, target: HISTORY_TARGET });
+    const response = { ok: true }; //'ServiceHistory.setHistorY()';
     if (response.ok) {
       Toast('Expresión salvada.', 'LONG', 'TOP', 25, 190);
       dispatch(privateActionsCreator.setHistorySuccess(expression));
@@ -82,8 +91,8 @@ export const actionCreators = {
     }
   },
   editExpressionHistory: objNewExpression => dispatch => {
-    dispatch({type: 'EDIT_EXPRESSION_HISTORY', target: HISTORY_TARGET});
-    const response = {ok: true}; //'ServiceHistory.editEpressionHistory()';
+    dispatch({ type: actions.EDIT_EXPRESSION_HISTORY, target: HISTORY_TARGET });
+    const response = { ok: true }; //'ServiceHistory.editEpressionHistory()';
     if (response.ok) {
       Toast('Expresión salvada.', 'LONG', 'TOP', 25, 190);
       dispatch(
@@ -96,8 +105,8 @@ export const actionCreators = {
     }
   },
   deleteHistoryForId: idHistory => dispatch => {
-    dispatch({type: 'DELETE_HISTORY_FOR_ID', target: HISTORY_TARGET});
-    const response = {ok: true}; //'ServiceHistory.deleteHistoryForId()';
+    dispatch({ type: actions.DELETE_HISTORY_FOR_ID, target: HISTORY_TARGET });
+    const response = { ok: true }; //'ServiceHistory.deleteHistoryForId()';
     if (response.ok) {
       Toast(
         `La expresión Nº: ${idHistory + 1}\nSe ha eliminado.`,
@@ -109,19 +118,21 @@ export const actionCreators = {
       dispatch(privateActionsCreator.deleteHistoryForIdSuccess(idHistory));
     } else {
       Toast(response.data.error, 'SHORT', 'TOP', 25, 190);
-      dispatch({type: 'DELETE_HISTORY_FOR_ID_FAILURE'});
+      dispatch(
+        privateActionsCreator.deleteHistoryForIdFailure(response.data.error),
+      );
     }
   },
   deleteAll: history => dispatch => {
-    dispatch({type: 'DEL_ALL', target: HISTORY_TARGET});
+    dispatch({ type: actions.DEL_ALL, target: HISTORY_TARGET });
     if (history.length > 0) {
-      const response = {ok: true}; //'ServiceHistory.deleteAll()';
+      const response = { ok: true }; //'ServiceHistory.deleteAll()';
       if (response.ok) {
         Toast('El historial se ha eliminado.', 'SHORT', 'BOTTOM', 0, 150);
         dispatch(privateActionsCreator.delAllSuccess());
       } else {
         Toast(response.data.error, 'SHORT', 'TOP', 25, 190);
-        dispatch({type: 'DEL_ALL_FAILURE'});
+        dispatch(privateActionsCreator.delAllFailure());
       }
     } else {
       Toast(

@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import {Text, View, TouchableOpacity, ImageBackground} from 'react-native';
-import {useDispatch} from 'react-redux';
+import React, { useState } from 'react';
+import { Text, View, TouchableOpacity, ImageBackground } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import actionsAuth from '../../redux/auth/actions';
 import Input from './components/Input';
 import styles from './styles';
 
-const Auth = ({navigation}) => {
+const Auth = ({ navigation }) => {
   const [screenView, setScreenView] = useState(true);
   const [values, setValues] = useState({});
   const dispatch = useDispatch();
@@ -28,7 +28,8 @@ const Auth = ({navigation}) => {
         style={[
           styles.boxBase,
           styles[screenView ? 'loginBox' : 'registerBox'],
-        ]}>
+        ]}
+      >
         {screenView ? (
           <>
             <Text style={styles.titleBox}>Iniciar sesión</Text>
@@ -77,7 +78,8 @@ const Auth = ({navigation}) => {
               ? dispatch(actionsAuth.signIn(values))
               : dispatch(actionsAuth.newUser(values));
           }}
-          style={styles.buttonConfirm}>
+          style={styles.buttonConfirm}
+        >
           <Text style={styles.textButonConfirm}>
             {screenView ? 'Entrar' : 'Regístrar'}
           </Text>
@@ -86,7 +88,8 @@ const Auth = ({navigation}) => {
           onPress={() => {
             setScreenView(!screenView);
             setValues({});
-          }}>
+          }}
+        >
           <Text style={styles.textButtonChange}>
             {screenView
               ? '¿Nó tenés cuenta?, Regístrate'
