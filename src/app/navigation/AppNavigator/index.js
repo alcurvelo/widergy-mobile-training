@@ -19,6 +19,7 @@ const Stack = createStackNavigator();
 const AppNavigator = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(state => !!state.authR.token);
+  const loading = useSelector(state => state.authR.tokenLoading);
 
   useEffect(() => {
     dispatch(actionsAuth.userLoged());
@@ -42,37 +43,39 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ cardStyle: styles.card }}>
-        {isAuthenticated ? (
-          <>
+      <UTLoading loading={loading} style={styles.spinner}>
+        <Stack.Navigator screenOptions={{ cardStyle: styles.card }}>
+          {isAuthenticated ? (
+            <>
+              <Stack.Screen
+                name={Routes.Home}
+                component={Home}
+                options={optionsScreen}
+              />
+              <Stack.Screen
+                name={Routes.History}
+                component={History}
+                options={optionsScreen}
+              />
+              <Stack.Screen
+                name={Routes.About}
+                component={About}
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </>
+          ) : (
             <Stack.Screen
-              name={Routes.Home}
-              component={Home}
-              options={optionsScreen}
-            />
-            <Stack.Screen
-              name={Routes.History}
-              component={History}
-              options={optionsScreen}
-            />
-            <Stack.Screen
-              name={Routes.About}
-              component={About}
+              name={Routes.Auth}
+              component={Auth}
               options={{
                 headerShown: false,
               }}
             />
-          </>
-        ) : (
-          <Stack.Screen
-            name={Routes.Auth}
-            component={Auth}
-            options={{
-              headerShown: false,
-            }}
-          />
-        )}
-      </Stack.Navigator>
+          )}
+        </Stack.Navigator>
+      </UTLoading>
     </NavigationContainer>
   );
 };

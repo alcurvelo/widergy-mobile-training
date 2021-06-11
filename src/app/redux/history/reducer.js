@@ -8,10 +8,8 @@ const initialState = {
   historyLoading: false,
 };
 const historyReducers = {
-  primaryActions: actions.primaryActions,
+  primaryActions: [actions.DEL_ALL],
   override: {
-    [actions.DEL_ALL_SUCCESS]: (state, action) =>
-      Immutable.merge(state, { history: action.payload }),
     [actions.SET_HISTORY_SUCCESS]: (state, action) =>
       Immutable.merge(state, { history: [...state.history, action.payload] }),
     [actions.EDIT_EXPRESSION_HISTORY_SUCCESS]: (state, action) => {

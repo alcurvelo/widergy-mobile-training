@@ -1,6 +1,10 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+  spinner: {
+    justifyContent: 'center',
+    flex: 1,
+  },
   card: {
     backgroundColor: 'green',
   },

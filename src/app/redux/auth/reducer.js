@@ -1,6 +1,5 @@
 import { completeReducer, createReducer } from 'redux-recompose';
 import { actions } from './actions';
-import Immutable from 'seamless-immutable';
 
 const initialState = {
   token: '',
@@ -9,17 +8,12 @@ const initialState = {
 };
 
 const authReducers = {
-  primaryActions: actions.primaryActions,
-  override: {
-    [actions.SIGN_IN_SUCCESS]: (state, action) =>
-      Immutable.merge(state, { token: action.payload.token }),
-    [actions.NEW_USER_SUCCESS]: (state, action) =>
-      Immutable.merge(state, { token: action.payload.token }),
-    [actions.USER_LOGED_SUCCESS]: (state, action) =>
-      Immutable.merge(state, { token: action.payload.token }),
-    [actions.USER_LOGOUT_SUCCESS]: (state, action) =>
-      Immutable.merge(state, { token: false }),
-  },
+  primaryActions: [
+    actions.SIGN_IN,
+    actions.NEW_USER,
+    actions.USER_LOGED,
+    actions.LOGOUT,
+  ],
 };
 
 export default createReducer(initialState, completeReducer(authReducers));

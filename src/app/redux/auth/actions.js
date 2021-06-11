@@ -30,8 +30,13 @@ const privateActionsCreator = {
     target: TOKEN_TARGET,
     payload,
   }),
-  logoutSuccess: () => ({
+  logoutSuccess: payload => ({
     type: actions.LOGOUT_SUCCESS,
+    target: TOKEN_TARGET,
+    payload,
+  }),
+  logoutFailure: () => ({
+    type: actions.LOGOUT_FAILURE,
     target: TOKEN_TARGET,
   }),
 };
@@ -84,8 +89,9 @@ export const actionsCreators = {
     if (response.ok) {
       Toast(response.data.message, 'LONG', 'CENTER', 25, 0);
       storagePersist.removeItem('token');
-      dispatch(privateActionsCreator.logoutSuccess());
+      dispatch(privateActionsCreator.logoutSuccess(''));
     } else {
+      dispatch(privateActionsCreator.logoutFailure());
       Toast(response.data.error, 'LONG', 'CENTER', 25, 0);
     }
   },
