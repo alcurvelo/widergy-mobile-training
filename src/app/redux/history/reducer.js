@@ -8,10 +8,12 @@ const initialState = {
   historyLoading: false,
 };
 const historyReducers = {
-  primaryActions: [actions.DEL_ALL],
+  primaryActions: [actions.DEL_ALL, actions.GET_HISTORIES],
   override: {
     [actions.SET_HISTORY_SUCCESS]: (state, action) =>
-      Immutable.merge(state, { history: [...state.history, action.payload] }),
+      Immutable.merge(state, {
+        history: [...state.history, { expression: action.payload }],
+      }),
     [actions.EDIT_EXPRESSION_HISTORY_SUCCESS]: (state, action) => {
       const { newExpression, id } = action.payload;
       let historyCopy = [...state.history];
@@ -20,7 +22,7 @@ const historyReducers = {
     },
     [actions.DELETE_HISTORY_FOR_ID_SUCCESS]: (state, action) => {
       const historyFiltered = state.history.filter(
-        (expression, key) => key !== action.payload,
+        element => element.id !== action.payload,
       );
       return Immutable.merge(state, { history: historyFiltered });
     },

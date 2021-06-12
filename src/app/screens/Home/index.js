@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   TextInput,
@@ -13,13 +13,17 @@ import styles from './styles';
 import Button from './components/Button';
 import { retrieveButtons, execOpKeyboardKeyPresed } from './utils';
 
-import actionHistory from '../../redux/history/actions';
+import actionsHistory from '../../redux/history/actions';
 
 const Home = ({ navigation }) => {
   const [display, setDisplay] = useState('');
   const [saveExpression, setSaveExpression] = useState('');
   const buttons = retrieveButtons(display, setDisplay, setSaveExpression);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actionsHistory.getHistories());
+  }, [dispatch]);
 
   return (
     <KeyboardAwareScrollView style={styles.contain}>
@@ -38,7 +42,7 @@ const Home = ({ navigation }) => {
                 <TouchableOpacity
                   onPress={() =>
                     saveExpression.length > 0 &&
-                    dispatch(actionHistory.setHistory(saveExpression))
+                    dispatch(actionsHistory.setHistory(saveExpression))
                   }
                 >
                   <ImageBackground

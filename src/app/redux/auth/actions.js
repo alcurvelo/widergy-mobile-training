@@ -30,6 +30,10 @@ const privateActionsCreator = {
     target: TOKEN_TARGET,
     payload,
   }),
+  userLogedFailure: () => ({
+    type: actions.USER_LOGED_FAILURE,
+    target: TOKEN_TARGET,
+  }),
   logoutSuccess: payload => ({
     type: actions.LOGOUT_SUCCESS,
     target: TOKEN_TARGET,
@@ -81,6 +85,8 @@ export const actionsCreators = {
     if (token !== false) {
       AuthService.setHeaderToken(token);
       dispatch(privateActionsCreator.userLogedSuccess(token));
+    } else {
+      dispatch(privateActionsCreator.userLogedFailure());
     }
   },
   logout: () => async dispatch => {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -6,14 +6,14 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
-import {useEffect} from 'react';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 import actionHistory from '../../../redux/history/actions';
-import {retrieveButtons} from '../../Home/utils';
+import { retrieveButtons } from '../../Home/utils';
 import styles from './styles';
 
-const ExpressionContainer = ({expression, id}) => {
+const ExpressionContainer = ({ expression, id }) => {
   useEffect(() => {
     setTypeExpression(expression);
   }, [expression]);
@@ -30,7 +30,7 @@ const ExpressionContainer = ({expression, id}) => {
   return (
     <View style={styles.boxHistory}>
       <TextInput
-        onKeyPress={({nativeEvent}) => {
+        onKeyPress={({ nativeEvent }) => {
           (nativeEvent.key.match(/[0123456789]/) ||
             nativeEvent.key.match(/[+-/=%*,]/)) != null
             ? leerPresionado(nativeEvent.key)
@@ -48,7 +48,8 @@ const ExpressionContainer = ({expression, id}) => {
       <Text style={styles.textValues}>{typeExpression.split(/[=]/)[1]}</Text>
       <View style={styles.boxButtons}>
         <TouchableOpacity
-          onPress={() => dispatch(actionHistory.deleteHistoryForId(id))}>
+          onPress={() => dispatch(actionHistory.deleteHistoryForId(id))}
+        >
           <ImageBackground
             style={[styles.buttonOption, styles.red]}
             source={{
@@ -64,7 +65,8 @@ const ExpressionContainer = ({expression, id}) => {
                 id,
               }),
             )
-          }>
+          }
+        >
           <ImageBackground
             style={[styles.buttonOption, styles.yellow]}
             source={{

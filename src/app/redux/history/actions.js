@@ -1,5 +1,6 @@
 import { createTypes, completeTypes } from 'redux-recompose';
 
+import ExpressionService from '../../services/ExpressionService';
 import Toast from '../components/Toast';
 
 export const actions = createTypes(
@@ -71,28 +72,30 @@ const privateActionsCreator = {
 };
 
 export const actionCreators = {
-  getHistories: () => dispatch => {
+  getHistories: () => async dispatch => {
     dispatch({ type: actions.GET_HISTORIES, target: HISTORY_TARGET });
-    const response = 'ServiceHistory.getHistories()';
+    const response = await ExpressionService.getExpressions();
     if (response.ok) {
-      dispatch(privateActionsCreator.getHistoriesSuccess(response.data));
+      dispatch(privateActionsCreator.getHistoriesSuccess(response.data.data));
     } else {
       dispatch(privateActionsCreator.getHistoriesFailure(response.data.error));
     }
   },
-  setHistory: expression => dispatch => {
+  setHistory: expression => async dispatch => {
     dispatch({ type: actions.SET_HISTORY, target: HISTORY_TARGET });
-    const response = { ok: true }; //'ServiceHistory.setHistorY()';
+    const response = await ExpressionService.setExpressions({
+      expressions: [expression],
+    });
     if (response.ok) {
-      Toast('Expresión salvada.', 'LONG', 'TOP', 25, 190);
+      Toast(response.data.message, 'LONG', 'TOP', 25, 190);
       dispatch(privateActionsCreator.setHistorySuccess(expression));
     } else {
       dispatch(privateActionsCreator.setHistoryFailure(response.data.error));
     }
   },
-  editExpressionHistory: objNewExpression => dispatch => {
+  editExpressionHistory: objNewExpression => async dispatch => {
     dispatch({ type: actions.EDIT_EXPRESSION_HISTORY, target: HISTORY_TARGET });
-    const response = { ok: true }; //'ServiceHistory.editEpressionHistory()';
+    const response = ExpressionService.editEpressionHistory(objNewExpression);
     if (response.ok) {
       Toast('Expresión salvada.', 'LONG', 'TOP', 25, 190);
       dispatch(
@@ -104,9 +107,11 @@ export const actionCreators = {
       );
     }
   },
-  deleteHistoryForId: idHistory => dispatch => {
+  deleteHistoryForId: idHistory => async dispatch => {
     dispatch({ type: actions.DELETE_HISTORY_FOR_ID, target: HISTORY_TARGET });
-    const response = { ok: true }; //'ServiceHistory.deleteHistoryForId()';
+    const response = await ExpressionService.delExpression({
+      expressions: [idHistory],
+    });
     if (response.ok) {
       Toast(
         `La expresión Nº: ${idHistory + 1}\nSe ha eliminado.`,
@@ -123,10 +128,10 @@ export const actionCreators = {
       );
     }
   },
-  deleteAll: history => dispatch => {
+  deleteAll: history => async dispatch => {
     dispatch({ type: actions.DEL_ALL, target: HISTORY_TARGET });
     if (history.length > 0) {
-      const response = { ok: true }; //'ServiceHistory.deleteAll()';
+      const response = await ExpressionService.deleteAll();
       if (response.ok) {
         Toast('El historial se ha eliminado.', 'SHORT', 'BOTTOM', 0, 150);
         dispatch(privateActionsCreator.delAllSuccess());
