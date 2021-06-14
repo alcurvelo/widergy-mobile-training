@@ -17,13 +17,14 @@ import actionsHistory from '../../redux/history/actions';
 
 const Home = ({ navigation }) => {
   const [display, setDisplay] = useState('');
+  const [reload, setReload] = useState(false);
   const [saveExpression, setSaveExpression] = useState('');
   const buttons = retrieveButtons(display, setDisplay, setSaveExpression);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(actionsHistory.getHistories());
-  }, [dispatch]);
+  }, [dispatch, reload]);
 
   return (
     <KeyboardAwareScrollView style={styles.contain}>
@@ -42,7 +43,8 @@ const Home = ({ navigation }) => {
                 <TouchableOpacity
                   onPress={() =>
                     saveExpression.length > 0 &&
-                    dispatch(actionsHistory.setHistory(saveExpression))
+                    dispatch(actionsHistory.setHistory(saveExpression)) &&
+                    setReload(!reload)
                   }
                 >
                   <ImageBackground

@@ -76,7 +76,11 @@ export const actionCreators = {
     dispatch({ type: actions.GET_HISTORIES, target: HISTORY_TARGET });
     const response = await ExpressionService.getExpressions();
     if (response.ok) {
-      dispatch(privateActionsCreator.getHistoriesSuccess(response.data.data));
+      dispatch(
+        privateActionsCreator.getHistoriesSuccess(
+          response.data.data !== undefined ? response.data.data : [],
+        ),
+      );
     } else {
       dispatch(privateActionsCreator.getHistoriesFailure(response.data.error));
     }
@@ -89,8 +93,11 @@ export const actionCreators = {
     if (response.ok) {
       Toast(response.data.message, 'LONG', 'TOP', 25, 190);
       dispatch(privateActionsCreator.setHistorySuccess(expression));
+      //Si agrega la expression, manda un true para que reload cambie y vuelva a pedir las expresiones.
+      return true;
     } else {
       dispatch(privateActionsCreator.setHistoryFailure(response.data.error));
+      return false;
     }
   },
   editExpressionHistory: objNewExpression => async dispatch => {

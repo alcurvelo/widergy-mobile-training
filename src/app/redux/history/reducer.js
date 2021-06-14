@@ -10,10 +10,16 @@ const initialState = {
 const historyReducers = {
   primaryActions: [actions.DEL_ALL, actions.GET_HISTORIES],
   override: {
-    [actions.SET_HISTORY_SUCCESS]: (state, action) =>
+    [actions.SET_HISTORY_SUCCESS]: (state, action) => {
+      /* Sí recibiera el id cuando guardara la expresión, hiciera esto.
+      const {expression, id} = action.payload
       Immutable.merge(state, {
-        history: [...state.history, { expression: action.payload }],
-      }),
+        history: [
+          ...state.history,
+          { expression, id },
+        ],
+      })*/
+    },
     [actions.EDIT_EXPRESSION_HISTORY_SUCCESS]: (state, action) => {
       const { expression, id } = action.payload;
       let historyCopy = [...state.history];
