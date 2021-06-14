@@ -9,8 +9,7 @@ import {
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
 
-import actionHistory from '../../../redux/history/actions';
-import {retrieveButtons} from '../../Home/utils';
+import {retrieveButtons, retriveActionHistory} from '../../Home/utils';
 import styles from './styles';
 
 const ExpressionContainer = ({expression, id}) => {
@@ -20,11 +19,12 @@ const ExpressionContainer = ({expression, id}) => {
 
   const [display, setDisplay] = useState('');
   const [typeExpression, setTypeExpression] = useState('');
-  let GET_BUTTONS = retrieveButtons(display, setDisplay, setTypeExpression);
+  let buttons = retrieveButtons(display, setDisplay, setTypeExpression);
+  const separedExpression = typeExpression.split(/[=]/);
   const dispatch = useDispatch();
 
-  const leerPresionado = target => {
-    GET_BUTTONS.find(button => button.label === target).action();
+  const readInput = target => {
+    buttons.find(button => button.label === target).action();
   };
 
   return (
@@ -33,22 +33,22 @@ const ExpressionContainer = ({expression, id}) => {
         onKeyPress={({nativeEvent}) => {
           (nativeEvent.key.match(/[0123456789]/) ||
             nativeEvent.key.match(/[+-/=%*,]/)) != null
-            ? leerPresionado(nativeEvent.key)
+            ? readInput(nativeEvent.key)
             : nativeEvent.key === 'Backspace'
-            ? GET_BUTTONS.find(button => button.label === '<').action()
+            ? buttons.find(button => button.label === '<').action()
             : console.warn(
                 'Introduzca números o caracteres de una calculadora.',
               );
         }}
-        placeholder={typeExpression.split(/[=]/)[0]}
+        placeholder={separedExpression[0]}
         placeholderTextColor={'white'}
         style={[styles.textValues, styles.inputText]}
       />
       <Text style={styles.textIqual}>=</Text>
-      <Text style={styles.textValues}>{typeExpression.split(/[=]/)[1]}</Text>
+      <Text style={styles.textValues}>{separedExpression[1]}</Text>
       <View style={styles.boxButtons}>
         <TouchableOpacity
-          onPress={() => dispatch(actionHistory.deleteHistoryForId(id))}>
+          onPress={retriveActionHistory(dispatch, id).deleteHistoryForId}>
           <ImageBackground
             style={[styles.buttonOption, styles.red]}
             source={{
@@ -57,13 +57,11 @@ const ExpressionContainer = ({expression, id}) => {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() =>
-            dispatch(
-              actionHistory.editExpressionHistory({
-                newExpression: typeExpression,
-                id,
-              }),
-            )
+          onPress={
+            retriveActionHistory(dispatch, {
+              newExpression: typeExpression,
+              id,
+            }).editExpressionHistoryForId
           }>
           <ImageBackground
             style={[styles.buttonOption, styles.yellow]}
