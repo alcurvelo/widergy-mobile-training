@@ -63,7 +63,7 @@ const privateActionsCreator = {
 
 export const actionCreators = {
   getHistories: () => dispatch => {
-    dispatch({type: 'GET_HISTORIES', target: HISTORY_TARGET});
+    dispatch({type: actions.GET_HISTORIES, target: HISTORY_TARGET});
     const response = 'ServiceHistory.getHistories()';
     if (response.ok) {
       dispatch(privateActionsCreator.getHistoriesSuccess(response.data));
@@ -72,7 +72,7 @@ export const actionCreators = {
     }
   },
   setHistory: expression => dispatch => {
-    dispatch({type: 'SET_HISTORY', target: HISTORY_TARGET});
+    dispatch({type: actions.SET_HISTORY, target: HISTORY_TARGET});
     const response = {ok: true}; //'ServiceHistory.setHistorY()';
     if (response.ok) {
       Toast('Expresión salvada.', 'LONG', 'TOP', 25, 190);
@@ -82,7 +82,7 @@ export const actionCreators = {
     }
   },
   editExpressionHistory: objNewExpression => dispatch => {
-    dispatch({type: 'EDIT_EXPRESSION_HISTORY', target: HISTORY_TARGET});
+    dispatch({type: actions.EDIT_EXPRESSION_HISTORY, target: HISTORY_TARGET});
     const response = {ok: true}; //'ServiceHistory.editEpressionHistory()';
     if (response.ok) {
       Toast('Expresión salvada.', 'LONG', 'TOP', 25, 190);
@@ -96,7 +96,7 @@ export const actionCreators = {
     }
   },
   deleteHistoryForId: idHistory => dispatch => {
-    dispatch({type: 'DELETE_HISTORY_FOR_ID', target: HISTORY_TARGET});
+    dispatch({type: actions.DELETE_HISTORY_FOR_ID, target: HISTORY_TARGET});
     const response = {ok: true}; //'ServiceHistory.deleteHistoryForId()';
     if (response.ok) {
       Toast(
@@ -109,11 +109,11 @@ export const actionCreators = {
       dispatch(privateActionsCreator.deleteHistoryForIdSuccess(idHistory));
     } else {
       Toast(response.data.error, 'SHORT', 'TOP', 25, 190);
-      dispatch({type: 'DELETE_HISTORY_FOR_ID_FAILURE'});
+      dispatch({type: actions.DELETE_HISTORY_FOR_ID_FAILURE});
     }
   },
   deleteAll: history => dispatch => {
-    dispatch({type: 'DEL_ALL', target: HISTORY_TARGET});
+    dispatch({type: actions.DEL_ALL, target: HISTORY_TARGET});
     if (history.length > 0) {
       const response = {ok: true}; //'ServiceHistory.deleteAll()';
       if (response.ok) {
@@ -121,7 +121,7 @@ export const actionCreators = {
         dispatch(privateActionsCreator.delAllSuccess());
       } else {
         Toast(response.data.error, 'SHORT', 'TOP', 25, 190);
-        dispatch({type: 'DEL_ALL_FAILURE'});
+        dispatch({type: actions.DEL_ALL_FAILURE});
       }
     } else {
       Toast(

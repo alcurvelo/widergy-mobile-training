@@ -18,19 +18,13 @@ const historyReducers = {
       const {newExpression, id} = action.payload;
       let historyCopy = [...state.history];
       historyCopy[id] = newExpression;
-      return {
-        ...state,
-        history: historyCopy,
-      };
+      return Immutable.merge(state, {history: historyCopy});
     },
     [actions.DELETE_HISTORY_FOR_ID_SUCCESS]: (state, action) => {
       const historyFiltered = state.history.filter(
         (expression, key) => key !== action.payload,
       );
-      return {
-        ...state,
-        history: historyFiltered,
-      };
+      return Immutable.merge(state, {history: historyFiltered});
     },
   },
 };
