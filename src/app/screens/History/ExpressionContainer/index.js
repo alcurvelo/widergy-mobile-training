@@ -61,7 +61,7 @@ const ExpressionContainer = ({ expression, id }) => {
           onPress={() =>
             dispatch(
               actionHistory.editExpressionHistory({
-                newExpression: typeExpression,
+                expression: typeExpression,
                 id,
               }),
             )

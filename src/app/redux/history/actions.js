@@ -95,9 +95,11 @@ export const actionCreators = {
   },
   editExpressionHistory: objNewExpression => async dispatch => {
     dispatch({ type: actions.EDIT_EXPRESSION_HISTORY, target: HISTORY_TARGET });
-    const response = ExpressionService.editEpressionHistory(objNewExpression);
+    const response = await ExpressionService.editExpressionForId(
+      objNewExpression,
+    );
     if (response.ok) {
-      Toast('Expresión salvada.', 'LONG', 'TOP', 25, 190);
+      Toast(response.data.message, 'LONG', 'TOP', 25, 190);
       dispatch(
         privateActionsCreator.editExpressionHistorySuccess(objNewExpression),
       );
@@ -131,9 +133,9 @@ export const actionCreators = {
   deleteAll: history => async dispatch => {
     dispatch({ type: actions.DEL_ALL, target: HISTORY_TARGET });
     if (history.length > 0) {
-      const response = await ExpressionService.deleteAll();
+      const response = await ExpressionService.deleteAll(history);
       if (response.ok) {
-        Toast('El historial se ha eliminado.', 'SHORT', 'BOTTOM', 0, 150);
+        Toast(response.data.message, 'SHORT', 'BOTTOM', 0, 150);
         dispatch(privateActionsCreator.delAllSuccess());
       } else {
         Toast(response.data.error, 'SHORT', 'TOP', 25, 190);

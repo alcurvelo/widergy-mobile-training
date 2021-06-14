@@ -1,7 +1,7 @@
 import { completeReducer, createReducer } from 'redux-recompose';
 import { actions } from './actions';
 import Immutable from 'seamless-immutable';
-//utloading @
+
 const initialState = {
   history: [],
   historyError: null,
@@ -15,9 +15,12 @@ const historyReducers = {
         history: [...state.history, { expression: action.payload }],
       }),
     [actions.EDIT_EXPRESSION_HISTORY_SUCCESS]: (state, action) => {
-      const { newExpression, id } = action.payload;
+      const { expression, id } = action.payload;
       let historyCopy = [...state.history];
-      historyCopy[id] = newExpression;
+      historyCopy[historyCopy.findIndex(element => element.id === id)] = {
+        expression,
+        id,
+      };
       return Immutable.merge(state, { history: historyCopy });
     },
     [actions.DELETE_HISTORY_FOR_ID_SUCCESS]: (state, action) => {
