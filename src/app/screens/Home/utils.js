@@ -1,6 +1,5 @@
 import styles from './components//Button/styles';
 import Toast from './components/Toast';
-import actionHistory from '../../redux/history/actions';
 
 export const getSetExpression = (display, setDisplay) => expression => {
   expression != null ? setDisplay(display.concat(expression)) : setDisplay('');
@@ -166,15 +165,4 @@ export const retrieveButtons = (display, setDisplay, setSaveExpression) => {
       style: styles.operation,
     },
   ];
-};
-
-export const retriveActionHistory = (dispatch, param) => {
-  return {
-    getHistories: () => dispatch(actionHistory.getHistories(param)),
-    setHistory: () => dispatch(actionHistory.setHistory(param)),
-    editExpressionHistoryForId: () =>
-      dispatch(actionHistory.editExpressionHistory(param)),
-    deleteHistoryForId: () => dispatch(actionHistory.deleteHistoryForId(param)),
-    deleteAll: () => dispatch(actionHistory.deleteAll(param)),
-  };
 };

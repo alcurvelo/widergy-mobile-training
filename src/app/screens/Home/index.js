@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, Fragment} from 'react';
 import {
   View,
   TextInput,
@@ -9,13 +9,10 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
 
+import actionHistory from '../../redux/history/actions';
 import styles from './styles';
 import Button from './components/Button';
-import {
-  retrieveButtons,
-  retriveActionHistory,
-  execOpKeyboardKeyPresed,
-} from './utils';
+import {retrieveButtons, execOpKeyboardKeyPresed} from './utils';
 
 const Home = ({navigation}) => {
   const [display, setDisplay] = useState('');
@@ -24,6 +21,9 @@ const Home = ({navigation}) => {
   const separedExpression = saveExpression.split(/[=]/);
   const history = useSelector(state => state.historyR.history);
   const dispatch = useDispatch();
+
+  const setHistory = () => dispatch(actionHistory.setHistory(saveExpression));
+
   return (
     <KeyboardAwareScrollView style={styles.contain}>
       <View style={styles.containerCalculator}>
@@ -42,9 +42,7 @@ const Home = ({navigation}) => {
                       ? false
                       : true
                   }
-                  onPress={
-                    retriveActionHistory(dispatch, saveExpression).setHistory
-                  }>
+                  onPress={setHistory}>
                   <ImageBackground
                     style={[styles.buttonOption, styles.red]}
                     source={{

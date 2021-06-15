@@ -5,11 +5,13 @@ import {
   TextInput,
   ImageBackground,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
 
-import {retrieveButtons, retriveActionHistory} from '../../Home/utils';
+import actionHistory from '../../../redux/history/actions';
+import {retrieveButtons} from '../../Home/utils';
 import styles from './styles';
 
 const ExpressionContainer = ({expression, id}) => {
@@ -27,6 +29,16 @@ const ExpressionContainer = ({expression, id}) => {
     buttons.find(button => button.label === target).action();
   };
 
+  const editExpressionHistoryForId = () =>
+    dispatch(
+      actionHistory.editExpressionHistory({
+        newExpression: typeExpression,
+        id,
+      }),
+    );
+  const deleteHistoryForId = () =>
+    dispatch(actionHistory.deleteHistoryForId(id));
+
   return (
     <View style={styles.boxHistory}>
       <TextInput
@@ -40,6 +52,13 @@ const ExpressionContainer = ({expression, id}) => {
                 'Introduzca números o caracteres de una calculadora.',
               );
         }}
+        onSubmitEditing={() => {
+          Keyboard.dismiss();
+          buttons.find(button => button.label === '=').action();
+        }}
+        onPressIn={() => {
+          setDisplay('');
+        }}
         placeholder={separedExpression[0]}
         placeholderTextColor={'white'}
         style={[styles.textValues, styles.inputText]}
@@ -47,8 +66,7 @@ const ExpressionContainer = ({expression, id}) => {
       <Text style={styles.textIqual}>=</Text>
       <Text style={styles.textValues}>{separedExpression[1]}</Text>
       <View style={styles.boxButtons}>
-        <TouchableOpacity
-          onPress={retriveActionHistory(dispatch, id).deleteHistoryForId}>
+        <TouchableOpacity onPress={deleteHistoryForId}>
           <ImageBackground
             style={[styles.buttonOption, styles.red]}
             source={{
@@ -56,13 +74,7 @@ const ExpressionContainer = ({expression, id}) => {
             }}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={
-            retriveActionHistory(dispatch, {
-              newExpression: typeExpression,
-              id,
-            }).editExpressionHistoryForId
-          }>
+        <TouchableOpacity onPress={editExpressionHistoryForId}>
           <ImageBackground
             style={[styles.buttonOption, styles.yellow]}
             source={{
