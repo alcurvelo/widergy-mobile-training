@@ -39,24 +39,27 @@ const ExpressionContainer = ({expression, id}) => {
   const deleteHistoryForId = () =>
     dispatch(actionHistory.deleteHistoryForId(id));
 
+  const controlKeyboard = nativeEvent => {
+    if (nativeEvent) {
+      (nativeEvent.key.match(/[0123456789]/) ||
+        nativeEvent.key.match(/[+-/=%*,]/)) != null
+        ? readInput(nativeEvent.key)
+        : nativeEvent.key === 'Backspace'
+        ? buttons.find(button => button.label === '<').action()
+        : console.warn('Introduzca números o caracteres de una calculadora.');
+    } else {
+      return () => {
+        Keyboard.dismiss();
+        buttons.find(button => button.label === '=').action();
+      };
+    }
+  };
   return (
     <View style={styles.boxHistory}>
       <TextInput
-        onKeyPress={({nativeEvent}) => {
-          (nativeEvent.key.match(/[0123456789]/) ||
-            nativeEvent.key.match(/[+-/=%*,]/)) != null
-            ? readInput(nativeEvent.key)
-            : nativeEvent.key === 'Backspace'
-            ? buttons.find(button => button.label === '<').action()
-            : console.warn(
-                'Introduzca números o caracteres de una calculadora.',
-              );
-        }}
-        onSubmitEditing={() => {
-          Keyboard.dismiss();
-          buttons.find(button => button.label === '=').action();
-        }}
-        onBlur={() => buttons.find(button => button.label === '=').action()}
+        onKeyPress={({nativeEvent}) => controlKeyboard(nativeEvent)}
+        onSubmitEditing={controlKeyboard()}
+        onBlur={controlKeyboard()}
         onPressIn={() => {
           setDisplay('');
         }}
