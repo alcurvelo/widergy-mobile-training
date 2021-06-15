@@ -77,7 +77,7 @@ const Auth = ({ navigation }) => {
         )}
         <TouchableOpacity
           onPress={() => {
-            screenView ? signIn : newUser;
+            screenView ? signIn() : newUser();
           }}
           style={styles.buttonConfirm}
         >

@@ -54,7 +54,7 @@ const Home = ({ navigation }) => {
                     !(
                       display.length > 0 &&
                       saveExpression.length > 0 &&
-                      history[history.length - 1] !== saveExpression
+                      !expressionSaveExistInHistory()
                     )
                   }
                   onPress={() => {
