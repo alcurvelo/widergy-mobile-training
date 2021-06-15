@@ -29,13 +29,17 @@ const ExpressionContainer = ({expression, id}) => {
     buttons.find(button => button.label === target).action();
   };
 
-  const editExpressionHistoryForId = () =>
-    dispatch(
-      actionHistory.editExpressionHistory({
-        newExpression: typeExpression,
-        id,
-      }),
-    );
+  const editExpressionHistoryForId = () => {
+    if (display.length > 0) {
+      return dispatch(
+        actionHistory.editExpressionHistory({
+          newExpression: typeExpression,
+          id,
+        }),
+      );
+    }
+  };
+
   const deleteHistoryForId = () =>
     dispatch(actionHistory.deleteHistoryForId(id));
 
@@ -48,22 +52,23 @@ const ExpressionContainer = ({expression, id}) => {
         ? buttons.find(button => button.label === '<').action()
         : console.warn('Introduzca números o caracteres de una calculadora.');
     } else {
-      return () => {
+      if (display.length > 0) {
         Keyboard.dismiss();
         buttons.find(button => button.label === '=').action();
-      };
+      }
     }
   };
   return (
     <View style={styles.boxHistory}>
       <TextInput
         onKeyPress={({nativeEvent}) => controlKeyboard(nativeEvent)}
-        onSubmitEditing={controlKeyboard()}
-        onBlur={controlKeyboard()}
+        onSubmitEditing={() => controlKeyboard()}
+        onBlur={() => controlKeyboard()}
         onPressIn={() => {
           setDisplay('');
+          setTypeExpression('');
         }}
-        placeholder={separedExpression[0]}
+        defaultValue={separedExpression[0]}
         placeholderTextColor={'white'}
         style={[styles.textValues, styles.inputText]}
       />
