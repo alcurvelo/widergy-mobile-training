@@ -8,7 +8,6 @@ export default {
     return await api.post('/calc/expressions', expressions);
   },
   editExpressionForId: async ({ id, expression }) => {
-    console.log(id, expression);
     return await api.put(`/calc/expressions/${id}`, { expression: expression });
   },
   delExpression: async objArrayDel => {

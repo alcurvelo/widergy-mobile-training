@@ -28,6 +28,7 @@ const Home = ({ navigation }) => {
   }, [dispatch, reload]);
 
   const setHistory = () => dispatch(actionsHistory.setHistory(saveExpression));
+
   const expressionSaveExistInHistory = () => {
     if (
       history.length > 0 &&

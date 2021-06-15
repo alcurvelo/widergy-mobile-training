@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { UTLoading } from '@widergy/mobile-ui';
 
 import About from '../../screens/About';
@@ -21,6 +21,8 @@ const AppNavigator = () => {
   const isAuthenticated = useSelector(state => !!state.authR.token);
   const loading = useSelector(state => state.authR.tokenLoading);
 
+  const logout = () => dispatch(actionsAuth.logout());
+
   useEffect(() => {
     dispatch(actionsAuth.userLoged());
   }, [dispatch]);
@@ -31,10 +33,7 @@ const AppNavigator = () => {
     headerStyle: styles.header,
     headerRight: () => {
       return (
-        <TouchableOpacity
-          onPress={() => dispatch(actionsAuth.logout())}
-          style={styles.bLogout}
-        >
+        <TouchableOpacity onPress={logout} style={styles.bLogout}>
           <Text style={styles.bLogoutText}>Cerrar sesión</Text>
         </TouchableOpacity>
       );

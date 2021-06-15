@@ -11,6 +11,9 @@ const Auth = ({ navigation }) => {
   const [values, setValues] = useState({});
   const dispatch = useDispatch();
 
+  const signIn = () => dispatch(actionsAuth.signIn(values));
+  const newUser = () => dispatch(actionsAuth.newUser(values));
+
   const readInput = (text, nameInput) => {
     setValues({
       ...values,
@@ -74,9 +77,7 @@ const Auth = ({ navigation }) => {
         )}
         <TouchableOpacity
           onPress={() => {
-            screenView
-              ? dispatch(actionsAuth.signIn(values))
-              : dispatch(actionsAuth.newUser(values));
+            screenView ? signIn : newUser;
           }}
           style={styles.buttonConfirm}
         >
