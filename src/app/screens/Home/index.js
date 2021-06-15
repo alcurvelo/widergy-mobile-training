@@ -36,11 +36,11 @@ const Home = ({navigation}) => {
               <View style={styles.boxButtonHistory}>
                 <TouchableOpacity
                   disabled={
-                    display.length > 0 &&
-                    saveExpression.length > 0 &&
-                    history[history.length - 1] !== saveExpression
-                      ? false
-                      : true
+                    !(
+                      display.length > 0 &&
+                      saveExpression.length > 0 &&
+                      history[history.length - 1] !== saveExpression
+                    )
                   }
                   onPress={setHistory}>
                   <ImageBackground

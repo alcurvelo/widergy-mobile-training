@@ -56,6 +56,7 @@ const ExpressionContainer = ({expression, id}) => {
           Keyboard.dismiss();
           buttons.find(button => button.label === '=').action();
         }}
+        onBlur={() => buttons.find(button => button.label === '=').action()}
         onPressIn={() => {
           setDisplay('');
         }}
