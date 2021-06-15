@@ -28,6 +28,15 @@ const Home = ({ navigation }) => {
   }, [dispatch, reload]);
 
   const setHistory = () => dispatch(actionsHistory.setHistory(saveExpression));
+  const expressionSaveExistInHistory = () => {
+    if (
+      history.length > 0 &&
+      history.findIndex(target => target.expression === saveExpression) !== -1
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <KeyboardAwareScrollView style={styles.contain}>
@@ -43,11 +52,15 @@ const Home = ({ navigation }) => {
                   disabled={
                     display.length > 0 &&
                     saveExpression.length > 0 &&
-                    history[history.length - 1] !== saveExpression
+                    !expressionSaveExistInHistory()
                       ? false
                       : true
                   }
-                  onPress={setHistory && setReload(!reload)}
+                  onPress={() => {
+                    if (setHistory()) {
+                      setReload(!reload);
+                    }
+                  }}
                 >
                   <ImageBackground
                     style={[styles.buttonOption, styles.red]}

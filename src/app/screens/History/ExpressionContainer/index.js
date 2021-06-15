@@ -32,7 +32,7 @@ const ExpressionContainer = ({ expression, id }) => {
   const editExpressionHistoryForId = () =>
     dispatch(
       actionHistory.editExpressionHistory({
-        newExpression: typeExpression,
+        expression: typeExpression,
         id,
       }),
     );
