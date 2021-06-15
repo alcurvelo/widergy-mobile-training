@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import {
   View,
   TextInput,
@@ -7,45 +7,47 @@ import {
   ImageBackground,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import actionsHistory from '../../redux/history/actions';
 import styles from './styles';
 import Button from './components/Button';
 import { retrieveButtons, execOpKeyboardKeyPresed } from './utils';
-
-import actionsHistory from '../../redux/history/actions';
 
 const Home = ({ navigation }) => {
   const [display, setDisplay] = useState('');
   const [reload, setReload] = useState(false);
   const [saveExpression, setSaveExpression] = useState('');
   const buttons = retrieveButtons(display, setDisplay, setSaveExpression);
+  const separedExpression = saveExpression.split(/[=]/);
+  const history = useSelector(state => state.historyR.history);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(actionsHistory.getHistories());
   }, [dispatch, reload]);
 
+  const setHistory = () => dispatch(actionsHistory.setHistory(saveExpression));
+
   return (
     <KeyboardAwareScrollView style={styles.contain}>
       <View style={styles.containerCalculator}>
         <View style={styles.boxHistory}>
           {saveExpression.length > 0 && (
-            <>
-              <Text style={styles.textValues}>
-                {saveExpression.split(/[=]/)[0]}
-              </Text>
+            <Fragment>
+              <Text style={styles.textValues}>{separedExpression[0]}</Text>
               <Text style={styles.textIqual}>=</Text>
-              <Text style={styles.textValues}>
-                {saveExpression.split(/[=]/)[1]}
-              </Text>
+              <Text style={styles.textValues}>{separedExpression[1]}</Text>
               <View style={styles.boxButtonHistory}>
                 <TouchableOpacity
-                  onPress={() =>
+                  disabled={
+                    display.length > 0 &&
                     saveExpression.length > 0 &&
-                    dispatch(actionsHistory.setHistory(saveExpression)) &&
-                    setReload(!reload)
+                    history[history.length - 1] !== saveExpression
+                      ? false
+                      : true
                   }
+                  onPress={setHistory && setReload(!reload)}
                 >
                   <ImageBackground
                     style={[styles.buttonOption, styles.red]}
@@ -55,7 +57,7 @@ const Home = ({ navigation }) => {
                   />
                 </TouchableOpacity>
               </View>
-            </>
+            </Fragment>
           )}
         </View>
         <View style={styles.boxScreen}>

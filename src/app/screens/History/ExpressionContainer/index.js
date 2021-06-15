@@ -5,6 +5,7 @@ import {
   TextInput,
   ImageBackground,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
@@ -20,12 +21,23 @@ const ExpressionContainer = ({ expression, id }) => {
 
   const [display, setDisplay] = useState('');
   const [typeExpression, setTypeExpression] = useState('');
-  let GET_BUTTONS = retrieveButtons(display, setDisplay, setTypeExpression);
+  let buttons = retrieveButtons(display, setDisplay, setTypeExpression);
+  const separedExpression = typeExpression.split(/[=]/);
   const dispatch = useDispatch();
 
-  const leerPresionado = target => {
-    GET_BUTTONS.find(button => button.label === target).action();
+  const readInput = target => {
+    buttons.find(button => button.label === target).action();
   };
+
+  const editExpressionHistoryForId = () =>
+    dispatch(
+      actionHistory.editExpressionHistory({
+        newExpression: typeExpression,
+        id,
+      }),
+    );
+  const deleteHistoryForId = () =>
+    dispatch(actionHistory.deleteHistoryForId(id));
 
   return (
     <View style={styles.boxHistory}>
@@ -33,23 +45,28 @@ const ExpressionContainer = ({ expression, id }) => {
         onKeyPress={({ nativeEvent }) => {
           (nativeEvent.key.match(/[0123456789]/) ||
             nativeEvent.key.match(/[+-/=%*,]/)) != null
-            ? leerPresionado(nativeEvent.key)
+            ? readInput(nativeEvent.key)
             : nativeEvent.key === 'Backspace'
-            ? GET_BUTTONS.find(button => button.label === '<').action()
+            ? buttons.find(button => button.label === '<').action()
             : console.warn(
                 'Introduzca números o caracteres de una calculadora.',
               );
         }}
-        placeholder={typeExpression.split(/[=]/)[0]}
+        onSubmitEditing={() => {
+          Keyboard.dismiss();
+          buttons.find(button => button.label === '=').action();
+        }}
+        onPressIn={() => {
+          setDisplay('');
+        }}
+        placeholder={separedExpression[0]}
         placeholderTextColor={'white'}
         style={[styles.textValues, styles.inputText]}
       />
       <Text style={styles.textIqual}>=</Text>
-      <Text style={styles.textValues}>{typeExpression.split(/[=]/)[1]}</Text>
+      <Text style={styles.textValues}>{separedExpression[1]}</Text>
       <View style={styles.boxButtons}>
-        <TouchableOpacity
-          onPress={() => dispatch(actionHistory.deleteHistoryForId(id))}
-        >
+        <TouchableOpacity onPress={deleteHistoryForId}>
           <ImageBackground
             style={[styles.buttonOption, styles.red]}
             source={{
@@ -57,16 +74,7 @@ const ExpressionContainer = ({ expression, id }) => {
             }}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            dispatch(
-              actionHistory.editExpressionHistory({
-                expression: typeExpression,
-                id,
-              }),
-            )
-          }
-        >
+        <TouchableOpacity onPress={editExpressionHistoryForId}>
           <ImageBackground
             style={[styles.buttonOption, styles.yellow]}
             source={{
