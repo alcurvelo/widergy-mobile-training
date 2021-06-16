@@ -24,6 +24,16 @@ const Home = ({navigation}) => {
 
   const setHistory = () => dispatch(actionHistory.setHistory(saveExpression));
 
+  const expressionSaveExistInHistory = () => {
+    if (
+      history.length > 0 &&
+      history.findIndex(target => target.expression === saveExpression) !== -1
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <KeyboardAwareScrollView style={styles.contain}>
       <View style={styles.containerCalculator}>
@@ -39,7 +49,7 @@ const Home = ({navigation}) => {
                     !(
                       display.length > 0 &&
                       saveExpression.length > 0 &&
-                      history[history.length - 1] !== saveExpression
+                      !expressionSaveExistInHistory()
                     )
                   }
                   onPress={setHistory}>

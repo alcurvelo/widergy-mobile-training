@@ -76,7 +76,12 @@ export const actionCreators = {
     const response = {ok: true}; //'ServiceHistory.setHistorY()';
     if (response.ok) {
       Toast('Expresión salvada.', 'LONG', 'TOP', 25, 190);
-      dispatch(privateActionsCreator.setHistorySuccess(expression));
+      dispatch(
+        privateActionsCreator.setHistorySuccess({
+          id: Math.random(),
+          expression,
+        }),
+      );
     } else {
       dispatch(privateActionsCreator.setHistoryFailure(response.data.error));
     }

@@ -22,8 +22,12 @@ const History = ({navigation}) => {
           </TouchableOpacity>
         </View>
         {history.length > 0 &&
-          history.map((expression, key) => (
-            <ExpressionContainer key={key} id={key} expression={expression} />
+          history.map((element, key) => (
+            <ExpressionContainer
+              key={key}
+              id={element.id}
+              expression={element.expression}
+            />
           ))}
       </ScrollView>
       <View style={styles.boxNavButtons}>

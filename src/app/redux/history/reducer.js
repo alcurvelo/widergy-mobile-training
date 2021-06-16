@@ -15,14 +15,17 @@ const historyReducers = {
     [actions.SET_HISTORY_SUCCESS]: (state, action) =>
       Immutable.merge(state, {history: [...state.history, action.payload]}),
     [actions.EDIT_EXPRESSION_HISTORY_SUCCESS]: (state, action) => {
-      const {newExpression, id} = action.payload;
+      const {expression, id} = action.payload;
       let historyCopy = [...state.history];
-      historyCopy[id] = newExpression;
+      historyCopy[historyCopy.findIndex(element => element.id === id)] = {
+        expression,
+        id,
+      };
       return Immutable.merge(state, {history: historyCopy});
     },
     [actions.DELETE_HISTORY_FOR_ID_SUCCESS]: (state, action) => {
       const historyFiltered = state.history.filter(
-        (expression, key) => key !== action.payload,
+        element => element.id !== action.payload,
       );
       return Immutable.merge(state, {history: historyFiltered});
     },
