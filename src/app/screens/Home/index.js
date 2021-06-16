@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {View, TextInput} from 'react-native';
+import {View, TextInput, TouchableOpacity, Text} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import styles from './styles';
 import Button from './components/Button';
 import {retrieveButtons, execOpKeyboardKeyPresed} from './utils';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const [display, setDisplay] = useState('');
   const buttons = retrieveButtons(display, setDisplay);
 
@@ -37,6 +37,18 @@ const Home = () => {
             );
           })}
         </View>
+      </View>
+      <View style={styles.boxNavButtons}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('History')}
+          style={styles.buttonNav}>
+          <Text style={styles.buttonNavText}>Historial</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('About')}
+          style={styles.buttonNav}>
+          <Text style={styles.buttonNavText}>Acerca de</Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAwareScrollView>
   );
