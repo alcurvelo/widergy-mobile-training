@@ -82,7 +82,7 @@ export const actionsCreators = {
     },
   getSavedToken: () => async dispatch => {
     dispatch({ type: actions.GET_SAVED_TOKEN, target: TOKEN_TARGET });
-    const token = await storagePersist.getElementStorage('toke');
+    const token = await storagePersist.getElementStorage('token');
     if (token) {
       AuthService.setHeaderToken(token);
       dispatch(privateActionsCreator.getSavedTokenSuccess(token));
