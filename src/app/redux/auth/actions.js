@@ -6,7 +6,7 @@ import storagePersist from '../../services/storagePersist';
 
 export const actions = createTypes(
   completeTypes({
-    primaryActions: ['SIGN_IN', 'NEW_USER', 'USER_LOGED', 'LOGOUT'],
+    primaryActions: ['SIGN_IN', 'NEW_USER', 'GET_SAVED_TOKEN', 'LOGOUT'],
     customCompleters: [],
   }),
   '@@AUTH',
@@ -20,18 +20,26 @@ const privateActionsCreator = {
     target: TOKEN_TARGET,
     payload,
   }),
+  signInFailure: () => ({
+    type: actions.SIGN_IN_FAILURE,
+    target: TOKEN_TARGET,
+  }),
   newUserSuccess: payload => ({
     type: actions.NEW_USER_SUCCESS,
     target: TOKEN_TARGET,
     payload,
   }),
-  userLogedSuccess: payload => ({
-    type: actions.USER_LOGED_SUCCESS,
+  newUserFailure: () => ({
+    type: actions.NEW_USER_FAILURE,
+    target: TOKEN_TARGET,
+  }),
+  getSavedTokenSuccess: payload => ({
+    type: actions.GET_SAVED_TOKEN_SUCCESS,
     target: TOKEN_TARGET,
     payload,
   }),
-  userLogedFailure: () => ({
-    type: actions.USER_LOGED_FAILURE,
+  getSavedTokenFailure: () => ({
+    type: actions.GET_SAVED_TOKEN_FAILURE,
     target: TOKEN_TARGET,
   }),
   logoutSuccess: payload => ({
@@ -55,38 +63,31 @@ export const actionsCreators = {
       dispatch(privateActionsCreator.signInSuccess(response.data));
     } else {
       Toast(response.data.error, 'LONG', 'CENTER', 25, 0);
+      dispatch(privateActionsCreator.signInFailure());
     }
   },
-  newUser: user => async dispatch => {
-    if (user.password === user.confirmPassword) {
+  newUser:
+    ({ email, password }) =>
+    async dispatch => {
       dispatch({ type: actions.NEW_USER, target: TOKEN_TARGET });
-      delete user.confirmPassword;
-      const response = await AuthService.newUser(user);
+      const response = await AuthService.newUser({ email, password });
       if (response.ok) {
         storagePersist.setElementStorage(response.data.token, 'token');
         AuthService.setHeaderToken(response.data.token);
         dispatch(privateActionsCreator.newUserSuccess(response.data));
       } else {
         Toast(response.data.error, 'LONG', 'CENTER', 25, 0);
+        dispatch(privateActionsCreator.newUserFailure());
       }
-    } else {
-      Toast(
-        'Las contraseñas no son iguales, vuelve a intentarlo.',
-        'LONG',
-        'CENTER',
-        25,
-        0,
-      );
-    }
-  },
-  userLoged: () => async dispatch => {
-    dispatch({ type: actions.USER_LOGED, target: TOKEN_TARGET });
-    const token = await storagePersist.getElementStorage('token');
-    if (token !== false) {
+    },
+  getSavedToken: () => async dispatch => {
+    dispatch({ type: actions.GET_SAVED_TOKEN, target: TOKEN_TARGET });
+    const token = await storagePersist.getElementStorage('toke');
+    if (token) {
       AuthService.setHeaderToken(token);
-      dispatch(privateActionsCreator.userLogedSuccess(token));
+      dispatch(privateActionsCreator.getSavedTokenSuccess(token));
     } else {
-      dispatch(privateActionsCreator.userLogedFailure());
+      dispatch(privateActionsCreator.getSavedTokenFailure());
     }
   },
   logout: () => async dispatch => {

@@ -9,7 +9,7 @@ export const actions = createTypes(
       'GET_HISTORIES',
       'SET_HISTORY',
       'EDIT_EXPRESSION_HISTORY',
-      'DELETE_HISTORY_FOR_ID',
+      'DELETE_HISTORY_BY_ID',
       'DEL_ALL',
     ],
     customCompleters: [],
@@ -45,25 +45,23 @@ const privateActionsCreator = {
     target: HISTORY_TARGET,
     payload,
   }),
-  editExpressionHistoryFailure: payload => ({
+  editExpressionHistoryFailure: () => ({
     type: actions.EDIT_EXPRESSION_HISTORY_FAILURE,
     target: HISTORY_TARGET,
-    payload,
   }),
-  deleteHistoryForIdSuccess: payload => ({
-    type: actions.DELETE_HISTORY_FOR_ID_SUCCESS,
+  deleteHistoryByIdSuccess: payload => ({
+    type: actions.DELETE_HISTORY_BY_ID_SUCCESS,
     target: HISTORY_TARGET,
     payload,
   }),
-  deleteHistoryForIdFailure: payload => ({
-    type: actions.DELETE_HISTORY_FOR_ID_FAILURE,
+  deleteHistoryByIdFailure: payload => ({
+    type: actions.DELETE_HISTORY_BY_ID_FAILURE,
     target: HISTORY_TARGET,
     payload,
   }),
   delAllSuccess: () => ({
     type: actions.DEL_ALL_SUCCESS,
     target: HISTORY_TARGET,
-    payload: [],
   }),
   delAllFailure: () => ({
     type: actions.DEL_ALL_FAILURE,
@@ -85,7 +83,7 @@ export const actionCreators = {
       dispatch(privateActionsCreator.getHistoriesFailure(response.data.error));
     }
   },
-  setHistory: expression => async dispatch => {
+  setHistory: (expression, refreshHistory) => async dispatch => {
     dispatch({ type: actions.SET_HISTORY, target: HISTORY_TARGET });
     const response = await ExpressionService.setExpressions({
       expressions: [expression],
@@ -93,16 +91,14 @@ export const actionCreators = {
     if (response.ok) {
       Toast(response.data.message, 'LONG', 'TOP', 25, 190);
       dispatch(privateActionsCreator.setHistorySuccess(expression));
-      //Si agrega la expression, manda un true para que reload cambie y vuelva a pedir las expresiones.
-      return true;
+      refreshHistory();
     } else {
       dispatch(privateActionsCreator.setHistoryFailure(response.data.error));
-      return false;
     }
   },
   editExpressionHistory: objNewExpression => async dispatch => {
     dispatch({ type: actions.EDIT_EXPRESSION_HISTORY, target: HISTORY_TARGET });
-    const response = await ExpressionService.editExpressionForId(
+    const response = await ExpressionService.editExpressionById(
       objNewExpression,
     );
     if (response.ok) {
@@ -111,13 +107,12 @@ export const actionCreators = {
         privateActionsCreator.editExpressionHistorySuccess(objNewExpression),
       );
     } else {
-      dispatch(
-        privateActionsCreator.editExpressionHistoryFailure(response.data.error),
-      );
+      Toast('No se logro editar el mensaje', 'LONG', 'TOP', 25, 190);
+      dispatch(privateActionsCreator.editExpressionHistoryFailure());
     }
   },
-  deleteHistoryForId: idHistory => async dispatch => {
-    dispatch({ type: actions.DELETE_HISTORY_FOR_ID, target: HISTORY_TARGET });
+  deleteHistoryById: idHistory => async dispatch => {
+    dispatch({ type: actions.DELETE_HISTORY_BY_ID, target: HISTORY_TARGET });
     const response = await ExpressionService.delExpression({
       expressions: [idHistory],
     });
@@ -129,33 +124,23 @@ export const actionCreators = {
         25,
         190,
       );
-      dispatch(privateActionsCreator.deleteHistoryForIdSuccess(idHistory));
+      dispatch(privateActionsCreator.deleteHistoryByIdSuccess(idHistory));
     } else {
       Toast(response.data.error, 'SHORT', 'TOP', 25, 190);
       dispatch(
-        privateActionsCreator.deleteHistoryForIdFailure(response.data.error),
+        privateActionsCreator.deleteHistoryByIdFailure(response.data.error),
       );
     }
   },
   deleteAll: history => async dispatch => {
     dispatch({ type: actions.DEL_ALL, target: HISTORY_TARGET });
-    if (history.length > 0) {
-      const response = await ExpressionService.deleteAll(history);
-      if (response.ok) {
-        Toast(response.data.message, 'SHORT', 'BOTTOM', 0, 150);
-        dispatch(privateActionsCreator.delAllSuccess());
-      } else {
-        Toast(response.data.error, 'SHORT', 'TOP', 25, 190);
-        dispatch(privateActionsCreator.delAllFailure());
-      }
+    const response = await ExpressionService.deleteAll(history);
+    if (response.ok) {
+      Toast(response.data.message, 'SHORT', 'BOTTOM', 0, 150);
+      dispatch(privateActionsCreator.delAllSuccess());
     } else {
-      Toast(
-        'Para eliminar el historial debe haber expresión/es guardada/s.',
-        'LONG',
-        'BOTTOM',
-        0,
-        150,
-      );
+      Toast(response.data.error, 'SHORT', 'TOP', 25, 190);
+      dispatch(privateActionsCreator.delAllFailure());
     }
   },
 };

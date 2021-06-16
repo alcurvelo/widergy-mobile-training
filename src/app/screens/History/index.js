@@ -3,19 +3,23 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ExpressionContainer from './ExpressionContainer';
-import actionsHistory from '../../redux/history/actions';
+import historyActions from '../../redux/history/actions';
 import styles from './styles';
 
 const History = ({ navigation }) => {
   const history = useSelector(store => store.historyR.history);
   const dispatch = useDispatch();
-  const deleteAll = () => dispatch(actionsHistory.deleteAll(history));
+  const deleteAll = () => dispatch(historyActions.deleteAll(history));
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.boxHistories}>
         <View style={styles.optionsGlobal}>
-          <TouchableOpacity onPress={deleteAll} style={styles.buttonGlobal}>
+          <TouchableOpacity
+            disabled={history.length <= 0}
+            onPress={deleteAll}
+            style={styles.buttonGlobal}
+          >
             <Text style={styles.textButton}>Borrar todos</Text>
           </TouchableOpacity>
         </View>

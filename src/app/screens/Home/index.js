@@ -9,7 +9,7 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch, useSelector } from 'react-redux';
 
-import actionsHistory from '../../redux/history/actions';
+import historyActions from '../../redux/history/actions';
 import styles from './styles';
 import Button from './components/Button';
 import { retrieveButtons, execOpKeyboardKeyPresed } from './utils';
@@ -24,10 +24,14 @@ const Home = ({ navigation }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actionsHistory.getHistories());
+    dispatch(historyActions.getHistories());
   }, [dispatch, reload]);
 
-  const setHistory = () => dispatch(actionsHistory.setHistory(saveExpression));
+  const refreshHistory = () => {
+    setReload(!reload);
+  };
+  const setHistory = () =>
+    dispatch(historyActions.setHistory(saveExpression, refreshHistory));
 
   const expressionSaveExistInHistory = () => {
     if (
@@ -57,11 +61,7 @@ const Home = ({ navigation }) => {
                       !expressionSaveExistInHistory()
                     )
                   }
-                  onPress={() => {
-                    if (setHistory()) {
-                      setReload(!reload);
-                    }
-                  }}
+                  onPress={() => setHistory()}
                 >
                   <ImageBackground
                     style={[styles.buttonOption, styles.red]}

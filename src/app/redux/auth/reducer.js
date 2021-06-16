@@ -11,7 +11,7 @@ const authReducers = {
   primaryActions: [
     actions.SIGN_IN,
     actions.NEW_USER,
-    actions.USER_LOGED,
+    actions.GET_SAVED_TOKEN,
     actions.LOGOUT,
   ],
 };

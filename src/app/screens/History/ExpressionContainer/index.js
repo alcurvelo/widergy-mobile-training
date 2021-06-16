@@ -17,7 +17,7 @@ import styles from './styles';
 const ExpressionContainer = ({ expression, id }) => {
   const [display, setDisplay] = useState('');
   const [typeExpression, setTypeExpression] = useState('');
-  let buttons = retrieveButtons(display, setDisplay, setTypeExpression);
+  const buttons = retrieveButtons(display, setDisplay, setTypeExpression);
   const separedExpression = typeExpression.split(/[=]/);
   const dispatch = useDispatch();
 
@@ -40,8 +40,7 @@ const ExpressionContainer = ({ expression, id }) => {
     }
   };
 
-  const deleteHistoryForId = () =>
-    dispatch(actionHistory.deleteHistoryForId(id));
+  const deleteHistoryById = () => dispatch(actionHistory.deleteHistoryById(id));
 
   const controlKeyboard = nativeEvent => {
     if (nativeEvent) {
@@ -75,7 +74,7 @@ const ExpressionContainer = ({ expression, id }) => {
       <Text style={styles.textIqual}>=</Text>
       <Text style={styles.textValues}>{separedExpression[1]}</Text>
       <View style={styles.boxButtons}>
-        <TouchableOpacity onPress={deleteHistoryForId}>
+        <TouchableOpacity onPress={deleteHistoryById}>
           <ImageBackground
             style={[styles.buttonOption, styles.red]}
             source={{
@@ -83,7 +82,10 @@ const ExpressionContainer = ({ expression, id }) => {
             }}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={editExpressionHistoryForId}>
+        <TouchableOpacity
+          disabled={display.length <= 0}
+          onPress={editExpressionHistoryForId}
+        >
           <ImageBackground
             style={[styles.buttonOption, styles.yellow]}
             source={{

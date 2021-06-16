@@ -1,7 +1,12 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
-//dorado #ffb200
 export default StyleSheet.create({
+  spinner: {
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    width: '100%',
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 20,

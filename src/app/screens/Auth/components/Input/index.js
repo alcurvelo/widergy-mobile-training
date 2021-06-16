@@ -17,7 +17,7 @@ const Input = ({
       placeholder={placeholder}
       placeholderTextColor="#2f2100"
       secureTextEntry={secureTextEntry}
-      value={values[nameInput] ? values[nameInput] : ''}
+      value={values[nameInput] || ''}
     />
   );
 };

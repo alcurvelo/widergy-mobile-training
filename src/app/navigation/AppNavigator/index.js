@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { Text, TouchableOpacity } from 'react-native';
-import { UTLoading } from '@widergy/mobile-ui';
 
 import About from '../../screens/About';
 import Home from '../../screens/Home';
@@ -11,7 +10,7 @@ import History from '../../screens/History';
 import Auth from '../../screens/Auth';
 
 import Routes from '../Routes';
-import actionsAuth from '../../redux/auth/actions';
+import authActions from '../../redux/auth/actions';
 import styles from './styles';
 
 const Stack = createStackNavigator();
@@ -19,12 +18,11 @@ const Stack = createStackNavigator();
 const AppNavigator = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(state => !!state.authR.token);
-  const loading = useSelector(state => state.authR.tokenLoading);
 
-  const logout = () => dispatch(actionsAuth.logout());
+  const logout = () => dispatch(authActions.logout());
 
   useEffect(() => {
-    dispatch(actionsAuth.userLoged());
+    dispatch(authActions.getSavedToken());
   }, [dispatch]);
 
   const optionsScreen = {
@@ -42,39 +40,37 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      <UTLoading loading={loading} style={styles.spinner}>
-        <Stack.Navigator screenOptions={{ cardStyle: styles.card }}>
-          {isAuthenticated ? (
-            <>
-              <Stack.Screen
-                name={Routes.Home}
-                component={Home}
-                options={optionsScreen}
-              />
-              <Stack.Screen
-                name={Routes.History}
-                component={History}
-                options={optionsScreen}
-              />
-              <Stack.Screen
-                name={Routes.About}
-                component={About}
-                options={{
-                  headerShown: false,
-                }}
-              />
-            </>
-          ) : (
+      <Stack.Navigator screenOptions={{ cardStyle: styles.card }}>
+        {isAuthenticated ? (
+          <Fragment>
             <Stack.Screen
-              name={Routes.Auth}
-              component={Auth}
+              name={Routes.Home}
+              component={Home}
+              options={optionsScreen}
+            />
+            <Stack.Screen
+              name={Routes.History}
+              component={History}
+              options={optionsScreen}
+            />
+            <Stack.Screen
+              name={Routes.About}
+              component={About}
               options={{
                 headerShown: false,
               }}
             />
-          )}
-        </Stack.Navigator>
-      </UTLoading>
+          </Fragment>
+        ) : (
+          <Stack.Screen
+            name={Routes.Auth}
+            component={Auth}
+            options={{
+              headerShown: false,
+            }}
+          />
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

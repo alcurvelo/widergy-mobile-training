@@ -1,6 +1,12 @@
 import { ToastAndroid } from 'react-native';
 
-const Toast = (message, duration, position, x, y) => {
+const Toast = (
+  message,
+  duration = 'SHORT',
+  position = 'CENTER',
+  x = 0,
+  y = 0,
+) => {
   ToastAndroid.showWithGravityAndOffset(
     message,
     ToastAndroid[duration],

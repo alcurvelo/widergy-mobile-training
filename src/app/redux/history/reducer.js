@@ -29,12 +29,14 @@ const historyReducers = {
       };
       return Immutable.merge(state, { history: historyCopy });
     },
-    [actions.DELETE_HISTORY_FOR_ID_SUCCESS]: (state, action) => {
+    [actions.DELETE_HISTORY_BY_ID_SUCCESS]: (state, action) => {
       const historyFiltered = state.history.filter(
         element => element.id !== action.payload,
       );
       return Immutable.merge(state, { history: historyFiltered });
     },
+    [actions.DEL_ALL_SUCCESS]: state =>
+      Immutable.merge(state, { history: initialState.history }),
   },
 };
 

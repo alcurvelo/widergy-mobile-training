@@ -7,23 +7,23 @@ export default {
       if (value !== null) {
         return value;
       }
-      return false;
+      throw 'Error al intentar obtener un elemento.';
     } catch (e) {
-      return false;
+      console.log(e);
     }
   },
   setElementStorage: async (element, nameElement) => {
     try {
       await AsyncStorage.setItem(`@${nameElement}`, element);
     } catch (e) {
-      return false;
+      console.log(e);
     }
   },
   setObjectStorage: async (element, nameObject) => {
     try {
       await AsyncStorage.setItem(`@${nameObject}`, JSON.stringify(element));
     } catch (e) {
-      return false;
+      console.log(e);
     }
   },
   getObjectStorage: async nameObject => {
@@ -31,14 +31,14 @@ export default {
       const jsonObj = await AsyncStorage.getItem(`@${nameObject}`);
       return jsonObj != null ? JSON.parse(jsonObj) : null;
     } catch (e) {
-      return false;
+      console.log(e);
     }
   },
   removeItem: async nameItem => {
     try {
       await AsyncStorage.removeItem(`@${nameItem}`);
     } catch (e) {
-      return false;
+      console.log(e);
     }
   },
 };
