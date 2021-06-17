@@ -1,9 +1,8 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, ImageBackground } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { UTLoading } from '@widergy/mobile-ui';
 
-import Toast from '../components/Toast';
 import authActions from '../../redux/auth/actions';
 import Input from './components/Input';
 import styles from './styles';
