@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   input: {
@@ -11,5 +11,17 @@ export default StyleSheet.create({
     color: '#f8f8f8',
     marginTop: 5,
     textAlign: 'center',
+  },
+  textSync: {
+    borderRadius: 5,
+    backgroundColor: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  error: {
+    color: 'darkred',
+  },
+  warning: {
+    color: 'darkorange',
   },
 });

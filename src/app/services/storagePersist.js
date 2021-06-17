@@ -7,7 +7,7 @@ export default {
       if (value !== null) {
         return value;
       }
-      throw 'Error al intentar obtener un elemento.';
+      throw 'No existe el elemento: ' + nameElement + '.';
     } catch (e) {
       console.log(e);
     }
