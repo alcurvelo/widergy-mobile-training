@@ -3,51 +3,51 @@ import { Text, Keyboard, TouchableOpacity } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { validate, warn } from './validate';
 import authActions from '../../../../redux/auth/actions';
 import renderField from './components/renderField';
-import { fieldsLogin, fieldsNewUser, propertiesByTypeField } from './constants';
+import {
+  FIELDS_LOGIN,
+  FIELS_NEW_USER,
+  PROPERTIES_BY_TYPE_FIELD,
+} from './constants';
 import styles from './styles';
 
-const AuthForm = ({ handleSubmit, pristine, reset, screenView, invalid }) => {
-  const values = useSelector(state => state.form.authForm.values);
+const AuthForm = ({
+  handleSubmit,
+  screenView,
+  invalid,
+  submitFailed,
+  pristine,
+}) => {
+  const values = useSelector(state => state.form.authForm?.values);
   const dispatch = useDispatch();
   const signIn = () => dispatch(authActions.signIn(values));
   const newUser = () => dispatch(authActions.newUser(values));
-  const fields = screenView ? fieldsLogin : fieldsNewUser;
+  const fields = screenView ? FIELDS_LOGIN : FIELS_NEW_USER;
 
-  const handleOnSubmit = objValues => {
+  const handleOnSubmit = value => {
     Keyboard.dismiss();
-    handleSubmit(objValues);
-    screenView ? signIn() : newUser();
+    handleSubmit(value);
+    if (!(invalid && pristine) && submitFailed) {
+      screenView ? signIn() : newUser();
+    }
   };
   return (
     <Fragment>
-      {fields.map(({ name, type, placeholder, normalize }, key) => {
+      {fields.map(({ name, type, placeholder, normalize, validate }, key) => {
         return (
           <Field
             key={key}
             placeholder={placeholder}
             name={name}
-            {...propertiesByTypeField[type]}
+            {...PROPERTIES_BY_TYPE_FIELD[type]}
             component={renderField}
             normalize={normalize}
+            validate={validate}
           />
         );
       })}
-      <TouchableOpacity
-        onPress={handleOnSubmit}
-        style={[styles.buttonConfirm]}
-        disabled={
-          invalid ||
-          pristine ||
-          (!screenView &&
-            !(
-              values.hasOwnProperty('confirmPassword') &&
-              values.password === values.confirmPassword
-            ))
-        }
-      >
+      <TouchableOpacity onPress={handleOnSubmit} style={[styles.buttonConfirm]}>
         <Text style={styles.textButonConfirm}>
           {screenView ? 'Entrar' : 'Regístrar'}
         </Text>
@@ -58,6 +58,4 @@ const AuthForm = ({ handleSubmit, pristine, reset, screenView, invalid }) => {
 
 export default reduxForm({
   form: 'authForm',
-  validate,
-  warn,
 })(AuthForm);

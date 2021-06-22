@@ -1,1 +1,1 @@
-export const lowerCaracter = value => value && value.toLowerCase();
+export const lowerCaracter = value => value?.toLowerCase();

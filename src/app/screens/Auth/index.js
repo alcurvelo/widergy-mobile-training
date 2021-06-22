@@ -10,6 +10,7 @@ const Auth = () => {
   const [screenView, setScreenView] = useState(true);
   const loading = useSelector(state => !!state.authR.tokenLoading);
 
+  const onSubmit = values => {};
   return (
     <UTLoading loading={loading} style={styles.spinner}>
       <View style={styles.container}>
@@ -26,7 +27,7 @@ const Auth = () => {
           <Text style={styles.titleBox}>
             {screenView ? 'Iniciar sesión' : 'Ingresa tus datos y regístrate'}
           </Text>
-          <AuthForm screenView={screenView} />
+          <AuthForm screenView={screenView} onSubmit={onSubmit} />
           <TouchableOpacity
             onPress={() => {
               setScreenView(!screenView);
