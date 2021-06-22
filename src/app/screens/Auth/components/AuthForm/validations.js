@@ -17,3 +17,9 @@ export const equalPasswords =
       return 'Las contraseñas deben ser iguales.';
     }
   };
+
+export const required = () => value => {
+  if (value?.length < 1 || value === undefined) {
+    return 'Este campo es requerido';
+  }
+};

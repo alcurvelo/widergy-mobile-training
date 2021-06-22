@@ -1,5 +1,10 @@
 import { lowerCaracter } from './normalizers';
-import { validateEmail, validatePassword, equalPasswords } from './validations';
+import {
+  validateEmail,
+  validatePassword,
+  equalPasswords,
+  required,
+} from './validations';
 
 const REP_EXP_EMAIL = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 const MIN_LENGHT_PASSWORD = 8;
@@ -10,13 +15,13 @@ export const FIELDS_LOGIN = [
     type: 'email',
     placeholder: 'Correo eléctronico',
     normalize: lowerCaracter,
-    validate: validateEmail(REP_EXP_EMAIL),
+    validate: [required(), validateEmail(REP_EXP_EMAIL)],
   },
   {
     name: 'password',
     type: 'password',
     placeholder: 'Contraseña',
-    validate: validatePassword(MIN_LENGHT_PASSWORD),
+    validate: [required(), validatePassword(MIN_LENGHT_PASSWORD)],
   },
 ];
 
@@ -26,7 +31,7 @@ export const FIELS_NEW_USER = [
     name: 'confirmPassword',
     type: 'password',
     placeholder: 'Confirma la contraseña',
-    validate: equalPasswords,
+    validate: [required(), equalPasswords()],
   },
 ];
 

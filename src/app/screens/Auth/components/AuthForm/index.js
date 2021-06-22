@@ -47,7 +47,11 @@ const AuthForm = ({
           />
         );
       })}
-      <TouchableOpacity onPress={handleOnSubmit} style={[styles.buttonConfirm]}>
+      <TouchableOpacity
+        disabled={submitFailed && invalid}
+        onPress={handleOnSubmit}
+        style={[styles.buttonConfirm]}
+      >
         <Text style={styles.textButonConfirm}>
           {screenView ? 'Entrar' : 'Regístrar'}
         </Text>
